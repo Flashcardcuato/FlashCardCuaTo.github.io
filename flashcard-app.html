@@ -1,0 +1,1743 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flashcard của tớ 🌸</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8C%B7%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --radius-lg: 22px;
+    --radius-md: 14px;
+    --radius-sm: 9px;
+    --shadow: 0 10px 30px rgba(40,20,60,.12);
+    --font-display: 'Baloo 2', 'Segoe UI', sans-serif;
+    --font-body: 'Be Vietnam Pro', 'Segoe UI', sans-serif;
+  }
+  html[data-theme="light"]{
+    --bg: #FFF7EC; --bg-soft: #FFEFD9; --surface: #FFFFFF; --surface-2: #FFF1E4;
+    --text: #2E2A3B; --text-dim: #6E6680;
+    --pink: #FF8FAB; --blue: #6EC3E0; --purple: #B497D6; --yellow: #FFC85C; --green: #6FCF97; --red: #FF7A7A;
+    --border: rgba(46,42,59,.10);
+  }
+  html[data-theme="dark"]{
+    --bg: #191A2E; --bg-soft: #21223B; --surface: #23233F; --surface-2: #2B2C4C;
+    --text: #F3F1FF; --text-dim: #A7A2C4;
+    --pink: #FF8FC7; --blue: #6FE3E8; --purple: #C4A8FF; --yellow: #FFD97D; --green: #7FE0A8; --red: #FF8B94;
+    --border: rgba(255,255,255,.10);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(1200px 700px at 10% -10%, var(--bg-soft), transparent 60%),
+      radial-gradient(1000px 600px at 110% 10%, var(--bg-soft), transparent 55%),
+      var(--bg);
+    color:var(--text); font-family:var(--font-body); min-height:100vh;
+    transition:background-color .4s ease,color .4s ease; overflow-x:hidden;
+  }
+  h1,h2,h3,.display{font-family:var(--font-display);}
+  button,input,select,textarea{font-family:inherit;color:inherit;}
+  button{cursor:pointer;}
+  ::selection{background:var(--pink);color:#fff;}
+
+  #decorations{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+  .deco{position:absolute;opacity:.55;filter:drop-shadow(0 6px 10px rgba(0,0,0,.08));animation:drift ease-in-out infinite;}
+  @keyframes drift{0%{transform:translate(0,0) rotate(0deg);}50%{transform:translate(12px,-22px) rotate(8deg);}100%{transform:translate(0,0) rotate(0deg);}}
+  @media (prefers-reduced-motion: reduce){.deco{animation:none;}}
+
+  .wrap{position:relative;z-index:1;max-width:1000px;margin:0 auto;padding:28px 20px 60px;}
+  header.top{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:22px;}
+  .brand{display:flex;align-items:center;gap:10px;}
+  .brand .logo{font-size:30px;line-height:1;}
+  .brand h1{font-size:22px;margin:0;font-weight:700;}
+  .brand p{margin:2px 0 0;font-size:12.5px;color:var(--text-dim);}
+  .top-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+  .icon-btn{background:var(--surface);border:1px solid var(--border);border-radius:50%;width:42px;height:42px;display:flex;align-items:center;justify-content:center;font-size:18px;box-shadow:var(--shadow);transition:transform .15s ease;flex-shrink:0;}
+  .icon-btn:hover{transform:translateY(-2px) scale(1.05);}
+  .user-pick{display:flex;align-items:center;gap:6px;background:var(--surface);border:1px solid var(--border);border-radius:999px;padding:6px 6px 6px 14px;box-shadow:var(--shadow);}
+  .user-pick span{font-size:13px;color:var(--text-dim);}
+  .user-pick select{border:none;background:transparent;font-weight:700;font-size:13.5px;padding:4px 6px;}
+
+  nav.tabs{display:flex;gap:8px;margin-bottom:20px;background:var(--surface);border:1px solid var(--border);padding:6px;border-radius:999px;box-shadow:var(--shadow);width:fit-content;max-width:100%;overflow-x:auto;}
+  nav.tabs button{border:none;background:transparent;padding:9px 16px;border-radius:999px;font-weight:600;font-size:14px;color:var(--text-dim);white-space:nowrap;transition:.2s;}
+  nav.tabs button.active{background:linear-gradient(135deg,var(--pink),var(--purple));color:#fff;}
+
+  section.panel{display:none;}
+  section.panel.active{display:block;animation:pop .25s ease;}
+  @keyframes pop{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+
+  .card-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:22px;box-shadow:var(--shadow);margin-bottom:16px;}
+  .row{display:flex;gap:12px;flex-wrap:wrap;align-items:center;}
+  .grow{flex:1;min-width:180px;}
+
+  select,.text-input{background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 12px;font-size:14px;}
+  select:disabled{opacity:.5;}
+  textarea{width:100%;background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius-md);padding:12px;font-size:14px;resize:vertical;min-height:140px;line-height:1.5;}
+
+  .btn{border:none;border-radius:999px;padding:10px 18px;font-weight:700;font-size:14px;box-shadow:var(--shadow);transition:transform .15s ease,opacity .15s ease;}
+  .btn:hover{transform:translateY(-2px);}
+  .btn:active{transform:translateY(0);}
+  .btn-primary{background:linear-gradient(135deg,var(--pink),var(--purple));color:#fff;}
+  .btn-soft{background:var(--surface-2);color:var(--text);}
+  .btn-green{background:linear-gradient(135deg,var(--green),var(--blue));color:#123;}
+  .btn-red{background:linear-gradient(135deg,var(--red),var(--pink));color:#fff;}
+  .btn-ghost{background:transparent;border:1px solid var(--border);color:var(--text-dim);}
+  .btn-sm{padding:6px 12px;font-size:12.5px;box-shadow:none;}
+  .btn:disabled{opacity:.4;cursor:not-allowed;transform:none;}
+
+  .study-top{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:16px;}
+  .progress-wrap{flex:1;min-width:160px;height:8px;background:var(--surface-2);border-radius:999px;overflow:hidden;}
+  .progress-bar{height:100%;background:linear-gradient(90deg,var(--pink),var(--purple));width:0%;transition:width .3s ease;}
+  .stage{display:flex;flex-direction:column;align-items:center;gap:18px;padding:20px 4px 8px;}
+  .flip-scene{perspective:1400px;width:100%;max-width:620px;height:300px;}
+  .flip-card{position:relative;width:100%;height:100%;transition:transform .5s cubic-bezier(.22,1,.36,1);transform-style:preserve-3d;cursor:pointer;}
+  .flip-card.flipped{transform:rotateY(180deg);}
+  .face{position:absolute;inset:0;border-radius:var(--radius-lg);backface-visibility:hidden;display:flex;align-items:center;justify-content:center;text-align:center;padding:28px;box-shadow:var(--shadow);border:1px solid var(--border);}
+  .face-front{background:linear-gradient(160deg,var(--surface),var(--surface-2));}
+  .face-back{background:linear-gradient(160deg,var(--pink),var(--purple));color:#fff;transform:rotateY(180deg);}
+  .face .tag{position:absolute;top:14px;left:18px;font-size:11.5px;letter-spacing:.02em;opacity:.65;}
+  .face .qtext{font-size:22px;font-weight:600;line-height:1.4;font-family:var(--font-display);}
+  .hint{font-size:12.5px;color:var(--text-dim);}
+  .answer-actions{display:flex;gap:12px;}
+  .answer-actions button{min-width:150px;font-size:15px;padding:12px 20px;}
+  .empty-state{text-align:center;padding:40px 10px;color:var(--text-dim);}
+  .empty-state .big-emoji{font-size:46px;display:block;margin-bottom:10px;}
+  .summary{text-align:center;padding:10px;}
+  .summary .score{font-family:var(--font-display);font-size:42px;font-weight:700;background:linear-gradient(135deg,var(--pink),var(--purple));-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .summary-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin:18px 0;}
+  .summary-grid .mini{background:var(--surface-2);border-radius:var(--radius-md);padding:12px;}
+  .summary-grid .mini b{display:block;font-size:19px;}
+  .summary-grid .mini span{font-size:12px;color:var(--text-dim);}
+
+  .deck-list{display:flex;flex-direction:column;gap:10px;margin-top:14px;}
+  .deck-item{display:flex;align-items:center;gap:10px;background:var(--surface-2);border-radius:var(--radius-md);padding:10px 14px;}
+  .deck-item.selected{outline:2px solid var(--purple);}
+  .deck-item .name{flex:1;font-weight:600;}
+  .deck-item .count{font-size:12.5px;color:var(--text-dim);}
+  .card-table{margin-top:14px;border-collapse:collapse;width:100%;font-size:13.5px;}
+  .card-table th,.card-table td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--border);vertical-align:top;}
+  .card-table th{color:var(--text-dim);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.03em;}
+  .icon-x{background:none;border:none;font-size:15px;padding:2px 6px;border-radius:6px;}
+  .icon-x:hover{background:var(--surface);}
+  .format-hint{font-size:12.5px;color:var(--text-dim);background:var(--surface-2);border-radius:var(--radius-sm);padding:10px 12px;margin-top:8px;line-height:1.6;}
+  code{background:var(--surface-2);padding:1px 6px;border-radius:5px;font-size:12.5px;}
+  .lock-note{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;background:var(--surface-2);border-radius:var(--radius-md);padding:14px 16px;font-size:13.5px;color:var(--text-dim);}
+
+  .stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:16px;}
+  .stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);padding:16px;box-shadow:var(--shadow);}
+  .stat-card .num{font-family:var(--font-display);font-size:24px;font-weight:700;}
+  .stat-card .lbl{font-size:12px;color:var(--text-dim);margin-top:2px;}
+  .pill{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;font-weight:600;padding:5px 10px;border-radius:999px;}
+  .pill.new{background:rgba(110,195,224,.18);color:var(--blue);}
+  .pill.review{background:rgba(255,143,171,.18);color:var(--pink);}
+  .pill.mastered{background:rgba(111,207,151,.18);color:var(--green);}
+  .deckrow{background:var(--surface-2);border-radius:var(--radius-md);padding:14px;margin-bottom:10px;}
+  .drow-top{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;font-weight:700;margin-bottom:8px;}
+  .drow-counts{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;}
+  .bar-row{display:flex;align-items:center;gap:10px;margin:6px 0;font-size:12.5px;}
+  .bar-track{flex:1;height:9px;background:var(--surface);border-radius:999px;overflow:hidden;}
+  .bar-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--green),var(--blue));}
+  .hist-item{display:flex;justify-content:space-between;gap:10px;font-size:13px;padding:8px 0;border-bottom:1px solid var(--border);}
+  .hist-item:last-child{border-bottom:none;}
+  .hist-item .muted{color:var(--text-dim);}
+
+  table.admin-table{width:100%;border-collapse:collapse;font-size:13px;margin-top:10px;}
+  table.admin-table th,table.admin-table td{text-align:left;padding:9px 8px;border-bottom:1px solid var(--border);}
+  table.admin-table th{color:var(--text-dim);font-size:11.5px;text-transform:uppercase;letter-spacing:.03em;}
+  table.admin-table tr.me td{background:rgba(180,151,214,.10);}
+
+  footer.foot{text-align:center;font-size:12px;color:var(--text-dim);margin-top:10px;}
+  .toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--surface);border:1px solid var(--border);box-shadow:var(--shadow);padding:12px 18px;border-radius:999px;font-size:13.5px;font-weight:600;opacity:0;pointer-events:none;transition:.25s ease;z-index:50;}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+  @media (max-width:560px){
+    .flip-scene{height:260px;}
+    .answer-actions{flex-direction:column;width:100%;}
+    .answer-actions button{width:100%;}
+  }
+
+  /* ============================================================
+     LUXURY CUTE UI + GENDER STYLE
+  ============================================================ */
+  html[data-gender="female"]{
+    --pink:#ff68ad; --purple:#9b6dff; --blue:#62d9ff; --yellow:#ffd76b; --green:#70e0bb;
+    --lux-grad:linear-gradient(135deg,#ff5ea8 0%,#bd72ff 52%,#63dcff 100%);
+    --lux-soft:linear-gradient(135deg,rgba(255,120,188,.20),rgba(160,111,255,.18),rgba(94,214,255,.16));
+  }
+  html[data-gender="male"]{
+    --pink:#5cc7ff; --purple:#7367ff; --blue:#60e8ff; --yellow:#ffd66b; --green:#66e0b1;
+    --lux-grad:linear-gradient(135deg,#45d9ff 0%,#6e73ff 48%,#b66cff 100%);
+    --lux-soft:linear-gradient(135deg,rgba(64,215,255,.18),rgba(103,107,255,.18),rgba(175,99,255,.16));
+  }
+  body{
+    position:relative;
+    background:
+      radial-gradient(900px 560px at 8% -5%, color-mix(in srgb,var(--pink) 19%,transparent), transparent 62%),
+      radial-gradient(900px 560px at 95% 4%, color-mix(in srgb,var(--blue) 17%,transparent), transparent 60%),
+      radial-gradient(820px 620px at 55% 115%, color-mix(in srgb,var(--purple) 16%,transparent), transparent 62%),
+      var(--bg);
+  }
+  body::before,body::after{
+    content:"";position:fixed;pointer-events:none;z-index:0;border-radius:50%;filter:blur(34px);opacity:.35;
+    animation:aurora 12s ease-in-out infinite alternate;
+  }
+  body::before{width:280px;height:280px;left:-100px;top:36%;background:var(--pink);}
+  body::after{width:320px;height:320px;right:-120px;top:48%;background:var(--blue);animation-delay:-4s;}
+  @keyframes aurora{0%{transform:translate3d(0,0,0) scale(1)}100%{transform:translate3d(30px,-28px,0) scale(1.12)}}
+
+  .wrap{max-width:1120px;padding-top:24px;}
+  header.top{padding:10px 4px 2px;}
+  .brand{position:relative;padding:10px 14px;border-radius:22px;background:var(--lux-soft);border:1px solid color-mix(in srgb,var(--pink) 22%,var(--border));box-shadow:0 16px 42px rgba(50,30,100,.12);backdrop-filter:blur(14px);}
+  .brand::after{content:"✦  ✧  ✦";position:absolute;right:12px;top:3px;font-size:12px;letter-spacing:4px;color:var(--yellow);opacity:.95;}
+  .brand .logo{font-size:38px;filter:drop-shadow(0 5px 12px color-mix(in srgb,var(--pink) 35%,transparent));}
+  .brand h1{font-size:25px;letter-spacing:.01em;background:var(--lux-grad);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:800;}
+  .brand p{font-size:12.5px;}
+  .user-pick{background:color-mix(in srgb,var(--surface) 88%,transparent);border:1px solid color-mix(in srgb,var(--pink) 18%,var(--border));box-shadow:0 14px 34px rgba(50,30,100,.12);backdrop-filter:blur(12px);}
+  .profile-btn{border:none;background:var(--lux-soft);border:1px solid color-mix(in srgb,var(--pink) 22%,var(--border));width:42px;height:42px;border-radius:50%;box-shadow:var(--shadow);font-size:18px;transition:.2s;}
+  .profile-btn:hover{transform:translateY(-2px) rotate(-4deg) scale(1.06);}
+
+  nav.tabs{width:100%;justify-content:center;gap:6px;padding:7px;background:color-mix(in srgb,var(--surface) 78%,transparent);border:1px solid color-mix(in srgb,var(--purple) 18%,var(--border));backdrop-filter:blur(16px);}
+  nav.tabs button{position:relative;padding:11px 18px;}
+  nav.tabs button.active{background:var(--lux-grad);box-shadow:0 8px 20px color-mix(in srgb,var(--purple) 22%,transparent);}
+  nav.tabs button.active::after{content:"";position:absolute;left:26%;right:26%;bottom:2px;height:3px;border-radius:99px;background:rgba(255,255,255,.75);filter:blur(.3px);}
+
+  .card-box,.stat-card{background:color-mix(in srgb,var(--surface) 90%,transparent);border:1px solid color-mix(in srgb,var(--purple) 15%,var(--border));box-shadow:0 18px 50px rgba(50,30,100,.11),inset 0 1px 0 rgba(255,255,255,.35);backdrop-filter:blur(15px);}
+  .card-box{position:relative;overflow:hidden;}
+  .card-box::before{content:"";position:absolute;inset:0 auto auto 0;width:140px;height:3px;background:var(--lux-grad);border-radius:0 999px 999px 0;opacity:.8;}
+  .stat-card{transition:transform .18s ease,box-shadow .18s ease;border-radius:18px;}
+  .stat-card:hover{transform:translateY(-4px);box-shadow:0 20px 45px rgba(50,30,100,.16);}
+  .stat-card .num{background:var(--lux-grad);-webkit-background-clip:text;background-clip:text;color:transparent;font-size:28px;}
+  .btn-primary{background:var(--lux-grad);box-shadow:0 10px 28px color-mix(in srgb,var(--purple) 22%,transparent);}
+  .btn-green{box-shadow:0 10px 25px color-mix(in srgb,var(--green) 18%,transparent);}
+  .face{box-shadow:0 25px 60px rgba(55,35,110,.18),inset 0 1px 0 rgba(255,255,255,.42);}
+  .face-front{background:linear-gradient(145deg,color-mix(in srgb,var(--surface) 96%,transparent),color-mix(in srgb,var(--pink) 8%,var(--surface-2)));}
+  .face-back{background:var(--lux-grad);}
+  .flip-scene{max-width:700px;height:330px;}
+  .face .qtext{font-size:25px;}
+  .study-top .grow{min-width:220px;}
+  select,.text-input,textarea{box-shadow:inset 0 1px 0 rgba(255,255,255,.35);}
+  select:focus,.text-input:focus,textarea:focus{outline:none;border-color:var(--pink);box-shadow:0 0 0 4px color-mix(in srgb,var(--pink) 15%,transparent);}
+  .pill.new,.pill.review,.pill.mastered{border:1px solid color-mix(in srgb,currentColor 20%,transparent);}
+  .hero-strip{display:grid;grid-template-columns:1.45fr .9fr;gap:14px;margin-bottom:18px;}
+  .hero-card{padding:22px 24px;border-radius:24px;background:var(--lux-grad);color:#fff;box-shadow:0 22px 55px color-mix(in srgb,var(--purple) 20%,transparent);position:relative;overflow:hidden;}
+  .hero-card::before{content:"✦     ✧   ✦      ✧";position:absolute;right:16px;top:10px;font-size:26px;letter-spacing:6px;opacity:.65;}
+  .hero-card h2{margin:0 0 6px;font-size:28px;}
+  .hero-card p{margin:0;opacity:.88;line-height:1.55;font-size:13px;max-width:640px;}
+  .hero-mini{padding:18px 20px;border-radius:24px;background:var(--lux-soft);border:1px solid color-mix(in srgb,var(--pink) 20%,var(--border));display:flex;align-items:center;gap:14px;}
+  .hero-avatar{width:62px;height:62px;border-radius:20px;display:grid;place-items:center;font-size:34px;background:rgba(255,255,255,.58);box-shadow:0 14px 30px rgba(50,30,100,.12);}
+  .hero-mini b{font-family:var(--font-display);font-size:20px;}
+  .hero-mini span{display:block;font-size:12.5px;color:var(--text-dim);margin-top:2px;}
+  .profile-modal{position:fixed;inset:0;background:rgba(15,10,35,.48);display:none;align-items:center;justify-content:center;padding:18px;z-index:80;backdrop-filter:blur(10px);}
+  .profile-modal.open{display:flex;animation:fadeIn .18s ease;}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+  .profile-dialog{width:min(560px,100%);background:color-mix(in srgb,var(--surface) 94%,transparent);border:1px solid color-mix(in srgb,var(--pink) 25%,var(--border));border-radius:28px;padding:24px;box-shadow:0 30px 80px rgba(20,10,50,.28);position:relative;overflow:hidden;}
+  .profile-dialog::before{content:"";position:absolute;left:-20%;top:-30%;width:140%;height:180px;background:var(--lux-grad);opacity:.11;filter:blur(25px);}
+  .profile-dialog h2{margin:0 0 6px;font-size:27px;}
+  .profile-sub{margin:0 0 18px;color:var(--text-dim);font-size:13px;line-height:1.5;}
+  .gender-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0 20px;}
+  .gender-card{border:2px solid var(--border);background:var(--surface-2);border-radius:22px;padding:16px;text-align:center;transition:.2s;position:relative;overflow:hidden;}
+  .gender-card:hover{transform:translateY(-3px);border-color:color-mix(in srgb,var(--purple) 38%,var(--border));}
+  .gender-card.selected{border-color:var(--purple);box-shadow:0 12px 28px color-mix(in srgb,var(--purple) 16%,transparent);}
+  .gender-card .gemoji{font-size:42px;display:block;margin-bottom:4px;}
+  .gender-card strong{font-family:var(--font-display);font-size:19px;}
+  .gender-card small{display:block;color:var(--text-dim);font-size:11.5px;margin-top:3px;}
+  .profile-actions{display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap;}
+  .mini-sparkles{color:var(--yellow);letter-spacing:4px;font-size:12px;}
+
+  @media (max-width:760px){
+    .hero-strip{grid-template-columns:1fr;}
+    nav.tabs{justify-content:flex-start;}
+    .brand{width:100%;}
+  }
+  @media (max-width:560px){
+    .flip-scene{height:290px;}
+    .gender-grid{grid-template-columns:1fr;}
+    .hero-card h2{font-size:24px;}
+  }
+
+
+  /* ============================================================
+     AUTH + TERMS + ACCOUNT UI
+  ============================================================ */
+  .auth-gate{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;position:relative;z-index:10;background:
+    radial-gradient(900px 600px at 10% 0%,color-mix(in srgb,var(--pink) 18%,transparent),transparent 60%),
+    radial-gradient(900px 600px at 100% 100%,color-mix(in srgb,var(--blue) 18%,transparent),transparent 60%),var(--bg);}
+  .auth-card{width:min(520px,100%);background:color-mix(in srgb,var(--surface) 94%,transparent);border:1px solid color-mix(in srgb,var(--purple) 22%,var(--border));border-radius:30px;padding:28px;box-shadow:0 30px 100px rgba(30,15,70,.22),inset 0 1px 0 rgba(255,255,255,.5);backdrop-filter:blur(20px);}
+  .auth-logo{font-size:52px;line-height:1;margin-bottom:6px;filter:drop-shadow(0 10px 20px color-mix(in srgb,var(--pink) 30%,transparent));}
+  .auth-card h1{margin:0;font-size:30px;background:var(--lux-grad);-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .auth-card .sub{color:var(--text-dim);font-size:13px;line-height:1.6;margin:6px 0 18px;}
+  .auth-card label{display:block;font-size:12px;color:var(--text-dim);margin:11px 0 6px;}
+  .auth-card .text-input{width:100%;padding:12px 14px;}
+  .auth-error{min-height:20px;margin-top:10px;color:var(--red);font-size:12.5px;line-height:1.5;}
+  .auth-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:8px;}
+  .terms-note{font-size:11.5px;color:var(--text-dim);line-height:1.5;margin-top:14px;text-align:center;}
+  .terms-modal{position:fixed;inset:0;background:rgba(15,10,35,.56);display:none;align-items:center;justify-content:center;padding:18px;z-index:100;backdrop-filter:blur(12px);}
+  .terms-modal.open{display:flex;animation:fadeIn .18s ease;}
+  .terms-dialog{width:min(720px,100%);max-height:min(86vh,780px);overflow:auto;background:color-mix(in srgb,var(--surface) 97%,transparent);border:1px solid color-mix(in srgb,var(--pink) 25%,var(--border));border-radius:28px;padding:24px;box-shadow:0 30px 100px rgba(20,10,50,.3);}
+  .terms-dialog h2{margin:0 0 7px;font-size:28px;}
+  .terms-dialog .terms-body{font-size:13px;line-height:1.7;color:var(--text);}
+  .terms-body h3{font-size:16px;margin:18px 0 6px;}
+  .terms-body p{margin:7px 0;}
+  .terms-check{display:flex;align-items:flex-start;gap:9px;background:var(--surface-2);padding:12px 13px;border-radius:15px;margin:18px 0;font-size:12.5px;line-height:1.5;}
+  .terms-check input{margin-top:3px;accent-color:var(--purple);}
+  .terms-actions{display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap;}
+  .contact-links{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}
+  .contact-meta{font-size:12px;color:var(--text-dim);margin-top:9px;word-break:break-word;}
+  .account-meta{display:flex;flex-direction:column;min-width:120px;}
+  .account-meta b{font-size:13px;line-height:1.2;}
+  .account-meta small{font-size:10.5px;color:var(--text-dim);margin-top:2px;}
+  .account-expiry{font-size:11px;color:var(--text-dim);}
+  .admin-user-form{background:var(--surface-2);border-radius:18px;padding:14px;margin:15px 0;}
+  .admin-user-form h3{margin:0 0 9px;font-size:18px;}
+  .admin-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+  .admin-form-grid .full{grid-column:1/-1;}
+  .status-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 8px;border-radius:999px;font-size:11px;font-weight:700;}
+  .status-active{background:rgba(111,207,151,.18);color:var(--green);}
+  .status-suspended{background:rgba(255,122,122,.16);color:var(--red);}
+  .status-expired{background:rgba(255,200,92,.18);color:#b07a00;}
+  @media (max-width:600px){.auth-actions,.admin-form-grid{grid-template-columns:1fr;}.terms-actions{flex-direction:column;}.terms-actions .btn{width:100%;}}
+
+</style>
+</head>
+<body>
+
+<div id="decorations"></div>
+
+
+<div class="auth-gate" id="authGate">
+  <div class="auth-card">
+    <div class="mini-sparkles">✦ ✧ ✦ ✧ ✦</div>
+    <div class="auth-logo">🌷</div>
+    <h1>Flashcard của tớ</h1>
+    <p class="sub">Khu học tập cá nhân có đồng bộ tài khoản. Tài khoản được Admin cấp để bạn đăng nhập và giữ nguyên tiến độ trên các thiết bị.</p>
+    <form id="loginForm" autocomplete="on">
+      <label for="loginEmail">Email tài khoản</label>
+      <input class="text-input" id="loginEmail" type="email" autocomplete="username" placeholder="email@example.com" required>
+      <label for="loginPassword">Mật khẩu</label>
+      <input class="text-input" id="loginPassword" type="password" autocomplete="current-password" placeholder="Mật khẩu do Admin cấp" required>
+      <div class="auth-error" id="authError"></div>
+      <div class="auth-actions">
+        <button class="btn btn-primary" type="submit" id="loginBtn">✨ Đăng nhập</button>
+        <button class="btn btn-soft" type="button" id="contactAdminBtn">💬 Liên hệ Admin</button>
+      </div>
+      <button class="btn btn-ghost" type="button" id="forgotPasswordBtn" style="width:100%;margin-top:8px;">Quên mật khẩu?</button>
+    </form>
+    <div class="terms-note">Bằng việc sử dụng tài khoản, bạn đồng ý tuân thủ điều khoản sử dụng và quy định về tài khoản do Admin cung cấp.</div>
+    <div id="backendSetupNote" style="display:none;margin-top:14px;background:var(--surface-2);border-radius:15px;padding:12px;font-size:12px;color:var(--text-dim);line-height:1.55;"></div>
+  </div>
+</div>
+
+<div class="terms-modal" id="termsModal" aria-hidden="true">
+  <div class="terms-dialog" role="dialog" aria-modal="true" aria-labelledby="termsTitle">
+    <div class="mini-sparkles">✦  ✧  ✦  ✧  ✦</div>
+    <h2 id="termsTitle">Điều khoản trước khi liên hệ Admin</h2>
+    <div class="terms-body">
+      <p><b>Phiên bản điều khoản: 2026-09-20-v1.</b> Nội dung dưới đây là mẫu vận hành của website và cần được bạn rà soát lại cho đúng chính sách kinh doanh thực tế trước khi công khai.</p>
+      <h3>1. Tài khoản</h3>
+      <p>Tài khoản được Admin cấp cho người dùng cụ thể. Người dùng chịu trách nhiệm giữ bí mật email và mật khẩu, không chia sẻ tài khoản hoặc thông tin đăng nhập cho người khác khi chưa được Admin cho phép.</p>
+      <h3>2. Quyền truy cập</h3>
+      <p>Quyền truy cập có thể gắn với thời hạn do Admin cấp. Khi tài khoản hết hạn hoặc bị tạm khóa, quyền truy cập vào nội dung học có thể được dừng cho đến khi Admin gia hạn hoặc mở lại.</p>
+      <h3>3. Nội dung học tập</h3>
+      <p>Kho học tập phục vụ mục đích giáo dục. Người dùng không được tự ý sao chép, phát tán hoặc bán lại tài liệu có bản quyền mà mình không sở hữu.</p>
+      <h3>4. Dữ liệu</h3>
+      <p>Website lưu các dữ liệu cần cho vận hành như tài khoản, hồ sơ hiển thị, tiến độ học, lịch sử học và thời gian sử dụng. Dữ liệu được liên kết theo tài khoản để đồng bộ trên các thiết bị; Admin có thể xem dữ liệu thống kê cần thiết cho quản trị dịch vụ.</p>
+      <h3>5. Thanh toán và gia hạn</h3>
+      <p>Website này hiện chưa tích hợp cổng thanh toán. Việc mua/gia hạn tài khoản, mức giá, thời hạn, đổi hoặc hoàn tiền (nếu có) được thực hiện theo thỏa thuận trực tiếp giữa người dùng và Admin. Hãy công khai chính sách cụ thể trước khi bán dịch vụ.</p>
+      <h3>6. Sử dụng hợp lệ</h3>
+      <p>Không được cố ý phá hoại hệ thống, tìm cách vượt quyền Admin, khai thác lỗi để truy cập dữ liệu của tài khoản khác hoặc sử dụng tài khoản trái với mục đích của dịch vụ.</p>
+      <h3>7. Liên hệ</h3>
+      <p>Admin: <b>huynhgiahuys3883@gmail.com</b> · Facebook: <b>https://www.facebook.com/ghuybboi</b></p>
+    </div>
+    <label class="terms-check"><input type="checkbox" id="termsAgree"> <span>Tôi đã đọc, hiểu và đồng ý với điều khoản sử dụng nêu trên.</span></label>
+    <div class="terms-actions">
+      <button class="btn btn-ghost" id="termsCloseBtn" type="button">Đóng</button>
+      <button class="btn btn-soft" id="contactFacebookBtn" type="button" disabled>Facebook Admin</button>
+      <button class="btn btn-primary" id="contactEmailBtn" type="button" disabled>Email Admin</button>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <header class="top">
+    <div class="brand">
+      <div class="logo">🌷</div>
+      <div>
+        <h1>Flashcard của tớ</h1>
+        <p>Học mỗi ngày một chút, nhớ lâu hơn ✨</p>
+      </div>
+    </div>
+    <div class="top-actions">
+      <div class="user-pick">
+        <span id="userAvatar">✨</span>
+        <div class="account-meta">
+          <b id="accountName">Người học</b>
+          <small id="accountEmail">—</small>
+        </div>
+      </div>
+      <button class="profile-btn" id="profileBtn" title="Chỉnh hồ sơ và phong cách">💎</button>
+      <button class="icon-btn" id="themeBtn" title="Đổi giao diện sáng/tối">🌗</button>
+      <button class="btn btn-ghost btn-sm" id="logoutBtn" title="Đăng xuất">Đăng xuất</button>
+    </div>
+  </header>
+
+  <nav class="tabs">
+    <button data-tab="study" class="active">📚 Học</button>
+    <button data-tab="library">📖 Kho tài liệu</button>
+    <button data-tab="mystats">📈 Thống kê của tôi</button>
+    <button data-tab="admin">👑 Admin</button>
+  </nav>
+
+  <!-- ================= STUDY ================= -->
+  <section class="panel active" id="panel-study">
+    <div class="hero-strip">
+      <div class="hero-card">
+        <div class="mini-sparkles">✦ ✧ ✦ ✧ ✦</div>
+        <h2>Chào mừng đến góc học tập của bạn 💫</h2>
+        <p>Học tập theo cách thật vui mắt: lấp lánh, đáng yêu và tràn đầy năng lượng. Mỗi lần hoàn thành một thẻ là thêm một bước tiến về phía mục tiêu.</p>
+      </div>
+      <div class="hero-mini">
+        <div class="hero-avatar" id="heroAvatar">✨</div>
+        <div><b id="heroName">Khách</b><span id="heroStyle">Phong cách cá nhân</span></div>
+      </div>
+    </div>
+    <div class="card-box">
+      <div class="study-top">
+        <select id="studyDeckSelect" class="grow"></select>
+        <span id="modeWrap"><select id="modeSelect" title="Chế độ học">
+          <option value="all">Tất cả thẻ</option>
+          <option value="new">Chỉ thẻ mới</option>
+          <option value="review">Cần ôn lại</option>
+          <option value="due">Đến hạn ôn hôm nay</option>
+          <option value="weak">Từ chưa thuộc / yếu</option>
+          <option value="seen">Ôn bài cũ (đã học)</option>
+        </select></span>
+        <label class="row" style="gap:6px;font-size:13px;color:var(--text-dim);">
+          <input type="checkbox" id="shuffleToggle" checked style="width:16px;height:16px;"> xáo thẻ
+        </label>
+        <button class="btn btn-soft" id="restartBtn">🔄 Học lại</button>
+      </div>
+      <div class="progress-wrap"><div class="progress-bar" id="progressBar"></div></div>
+      <div class="stage" id="studyStage"></div>
+    </div>
+  </section>
+
+  <!-- ================= LIBRARY (Kho tài liệu) ================= -->
+  <section class="panel" id="panel-library">
+    <div class="card-box" id="libraryTopBox"></div>
+    <div class="card-box">
+      <h2 style="margin-top:0;">Danh sách bộ thẻ</h2>
+      <div class="deck-list" id="deckList"></div>
+    </div>
+    <div class="card-box">
+      <div class="row" style="justify-content:space-between;">
+        <h2 style="margin:0;">📚 Tài liệu của Admin</h2>
+        <span class="pill" style="background:var(--surface-2);color:var(--text-dim);">Nguồn dùng chung</span>
+      </div>
+      <div id="resourceList" style="margin-top:12px;"></div>
+    </div>
+    <div class="card-box" id="resourceAdminBox" style="display:none;"></div>
+
+    <div class="card-box" id="importBox" style="display:none;">
+      <h2 style="margin-top:0;">Nhập câu hỏi từ nguồn của mình</h2>
+      <div class="row" style="margin-bottom:8px;">
+        <select id="importTargetDeck" class="grow"></select>
+        <label class="btn btn-soft" style="margin:0;">
+          📄 Chọn file .txt/.csv
+          <input type="file" id="fileInput" accept=".txt,.csv" style="display:none;">
+        </label>
+      </div>
+      <textarea id="importArea" placeholder="Thủ đô của Việt Nam là gì? | Hà Nội&#10;2 + 2 x 3 = ? | 8&#10;Photosynthesis nghĩa là gì? | Quang hợp"></textarea>
+      <div class="format-hint">Mỗi dòng 1 thẻ, theo định dạng <code>Câu hỏi | Đáp án</code> (dùng dấu <code>|</code> hoặc dấu phẩy). Dán trực tiếp từ Word/Excel/Google Sheets cũng được.</div>
+      <div class="row" style="margin-top:10px;">
+        <button class="btn btn-primary" id="importBtn">⬆️ Thêm vào bộ thẻ</button>
+        <button class="btn btn-ghost" id="sampleBtn">Dùng dữ liệu mẫu</button>
+      </div>
+    </div>
+    <div class="card-box">
+      <div class="row" style="justify-content:space-between;">
+        <h2 style="margin:0;">Nội dung bộ thẻ đang chọn</h2>
+        <button class="btn btn-red" id="deleteDeckBtn" style="display:none;">🗑️ Xoá bộ thẻ này</button>
+      </div>
+      <table class="card-table">
+        <thead><tr><th style="width:42%">Câu hỏi</th><th>Đáp án</th><th id="cardTableActionsHead" style="width:60px;"></th></tr></thead>
+        <tbody id="cardTableBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ================= MY STATS ================= -->
+  <section class="panel" id="panel-mystats">
+    <div class="stat-grid" id="statOverview"></div>
+    <div class="card-box">
+      <h2 style="margin-top:0;">⚡ Ôn nhanh</h2>
+      <div class="row" id="quickReviewActions"></div>
+    </div>
+    <div class="card-box">
+      <h2 style="margin-top:0;">Tiến độ ghi nhớ (tất cả bộ thẻ)</h2>
+      <div class="row" id="masteryPills"></div>
+    </div>
+    <div class="card-box">
+      <h2 style="margin-top:0;">Theo từng bộ thẻ</h2>
+      <div id="statByDeck"></div>
+    </div>
+    <div class="card-box">
+      <h2 style="margin-top:0;">Lịch sử học gần đây</h2>
+      <div id="statHistory"></div>
+    </div>
+  </section>
+
+  <!-- ================= ADMIN ================= -->
+  <section class="panel" id="panel-admin">
+    <div class="card-box" id="adminBox"></div>
+  </section>
+
+  <footer class="foot">Dữ liệu tài khoản và tiến độ được đồng bộ trên database của dịch vụ. <button class="btn btn-ghost btn-sm" id="footerContactBtn" style="margin-left:5px;">💬 Liên hệ Admin</button></footer>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<div class="profile-modal" id="profileModal" aria-hidden="true">
+  <div class="profile-dialog" role="dialog" aria-modal="true" aria-labelledby="profileTitle">
+    <div class="mini-sparkles">✦  ✧  ✦  ✧  ✦</div>
+    <h2 id="profileTitle">Hồ sơ của bạn</h2>
+    <p class="profile-sub">Chọn phong cách hiển thị yêu thích. Cả hai phong cách đều giữ nét dễ thương, nhưng bảng màu và hiệu ứng sẽ thay đổi để tạo cảm giác riêng.</p>
+    <label style="display:block;font-size:12px;color:var(--text-dim);margin-bottom:6px;">Tên hiển thị</label>
+    <input class="text-input" id="profileNameInput" style="width:100%;" maxlength="40" placeholder="Nhập tên của bạn">
+    <div class="gender-grid">
+      <button type="button" class="gender-card" data-gender-choice="female">
+        <span class="gemoji">🌷</span><strong>Nữ</strong><small>Hồng · tím · ánh ngọc · lung linh</small>
+      </button>
+      <button type="button" class="gender-card" data-gender-choice="male">
+        <span class="gemoji">🌊</span><strong>Nam</strong><small>Xanh · tím · ánh sao · năng động</small>
+      </button>
+    </div>
+    <div class="profile-actions">
+      <button class="btn btn-ghost" id="profileCancelBtn">Đóng</button>
+      <button class="btn btn-primary" id="profileSaveBtn">✨ Lưu phong cách</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
+<script>
+(function(){
+  "use strict";
+
+  /* ============================================================
+     THEME — random light/dark every visit + manual toggle
+  ============================================================ */
+  const root = document.documentElement;
+  function setTheme(t){ root.setAttribute('data-theme', t); sessionStorage.setItem('fc_theme_session', t); }
+  function setGenderTheme(g){ root.setAttribute('data-gender', g === 'male' ? 'male' : 'female'); sessionStorage.setItem('fc_gender_session', g === 'male' ? 'male' : 'female'); }
+  (function initTheme(){
+    let t = sessionStorage.getItem('fc_theme_session');
+    if(!t){ t = Math.random() < 0.5 ? 'light' : 'dark'; }
+    setTheme(t);
+  })();
+  document.getElementById('themeBtn').addEventListener('click', function(){
+    setTheme(root.getAttribute('data-theme') === 'light' ? 'dark' : 'light');
+  });
+
+  /* ============================================================
+     FLOATING DECORATIONS
+  ============================================================ */
+  const SHAPES = [
+    '<svg viewBox="0 0 24 24" width="100%" height="100%"><path fill="currentColor" d="M12 2l2.9 6.6L22 9.3l-5 4.9L18.2 22 12 18.3 5.8 22 7 14.2 2 9.3l7.1-.7z"/></svg>',
+    '<svg viewBox="0 0 24 24" width="100%" height="100%"><path fill="currentColor" d="M12 21s-7.5-4.6-10-9.1C.6 8.7 2.3 5 6 5c2 0 3.6 1.1 4.5 2.7C11.4 6.1 13 5 15 5c3.7 0 5.4 3.7 4 6.9C19.5 16.4 12 21 12 21z"/></svg>',
+    '<svg viewBox="0 0 24 24" width="100%" height="100%"><path fill="currentColor" d="M6 17a4 4 0 010-8 5 5 0 019.6-1.5A4.5 4.5 0 0119 17H6z"/></svg>',
+    '<svg viewBox="0 0 24 24" width="100%" height="100%"><path fill="currentColor" d="M3 21l1.6-5.6L15.3 4.7a1.5 1.5 0 012.1 0l1.9 1.9a1.5 1.5 0 010 2.1L8.6 19.4 3 21z"/></svg>',
+    '<svg viewBox="0 0 24 24" width="100%" height="100%"><path fill="currentColor" d="M4 4h11l5 5v11a1 1 0 01-1 1H4a1 1 0 01-1-1V5a1 1 0 011-1zm10 1.5V9h3.5L14 5.5zM7 13h10v1.5H7V13zm0 3h7v1.5H7V16z"/></svg>'
+  ];
+  const DECO_COLORS = ['pink','blue','purple','yellow','green'];
+  (function spawnDecorations(){
+    const host = document.getElementById('decorations');
+    const n = 10 + Math.floor(Math.random()*5);
+    for(let i=0;i<n;i++){
+      const el = document.createElement('div');
+      el.className = 'deco';
+      const shape = SHAPES[Math.floor(Math.random()*SHAPES.length)];
+      const color = DECO_COLORS[Math.floor(Math.random()*DECO_COLORS.length)];
+      const size = 22 + Math.random()*30;
+      el.style.color = 'var(--'+color+')';
+      el.style.width = size+'px';
+      el.style.height = size+'px';
+      el.style.left = Math.random()*100+'%';
+      el.style.top = Math.random()*100+'%';
+      el.style.opacity = (0.25 + Math.random()*0.35).toFixed(2);
+      el.style.animationDuration = (6+Math.random()*8).toFixed(1)+'s';
+      el.style.animationDelay = (Math.random()*5).toFixed(1)+'s';
+      el.innerHTML = shape;
+      host.appendChild(el);
+    }
+  })();
+
+  function escapeHtml(s){
+    return String(s).replace(/[&<>"']/g, function(c){ return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]; });
+  }
+  let toastTimer = null;
+  function toast(msg){
+    const el = document.getElementById('toast');
+    el.textContent = msg;
+    el.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function(){ el.classList.remove('show'); }, 2200);
+  }
+  function fmtDuration(ms){
+    const totalSec = Math.round(ms/1000);
+    const h = Math.floor(totalSec/3600);
+    const m = Math.floor((totalSec%3600)/60);
+    const s = totalSec%60;
+    if(h>0) return h+'g '+m+'p';
+    if(m>0) return m+'p '+s+'s';
+    return s+'s';
+  }
+  /* ============================================================
+     REMOTE DATA LAYER — Supabase
+  ============================================================ */
+  const APP_CONFIG = window.FLASHCARD_CONFIG || {};
+  const SUPABASE_URL = String(APP_CONFIG.supabaseUrl || '').trim();
+  const SUPABASE_PUBLISHABLE_KEY = String(APP_CONFIG.supabasePublishableKey || '').trim();
+  const CONFIG_OK = /^https:\/\/[^\s]+\.supabase\.co(?:\/)?$/.test(SUPABASE_URL) && SUPABASE_PUBLISHABLE_KEY && !SUPABASE_PUBLISHABLE_KEY.includes('YOUR_');
+  let supabaseClient = null;
+  if(CONFIG_OK && window.supabase && typeof window.supabase.createClient === 'function'){
+    supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, { auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true} });
+  }
+
+  let remoteReady = false;
+  let authUser = null;
+  let currentUserId = null;
+  let currentUserProfile = null;
+  let users = {};
+  let decks = {};
+  let order = [];
+  let progress = {};
+  let stats = {usageByUser:{}, sessions:[]};
+  let resources = [];
+  let termsAcceptances = [];
+  let booting = false;
+
+  function uid(){ return (crypto && crypto.randomUUID) ? crypto.randomUUID() : Date.now().toString(36)+Math.random().toString(36).slice(2,7); }
+  function currentDeckIdSafe(){ return order.find(function(id){ return decks[id]; }) || null; }
+  function isAccountActive(profile){
+    if(!profile || profile.status !== 'active') return false;
+    if(profile.role === 'admin') return true;
+    return !profile.expires_at || new Date(profile.expires_at).getTime() > Date.now();
+  }
+  function isAdmin(){ return !!(currentUserProfile && currentUserProfile.role === 'admin' && currentUserProfile.status === 'active'); }
+  function remoteError(err, fallback){
+    if(err) console.error('[Flashcard DB]', err);
+    toast(fallback || 'Không thể đồng bộ dữ liệu. Kiểm tra kết nối database.');
+  }
+
+  async function loadRemoteData(){
+    if(!supabaseClient || !authUser) return false;
+    const ownId = authUser.id;
+    const profileRes = await supabaseClient.from('profiles').select('*').eq('id', ownId).single();
+    if(profileRes.error || !profileRes.data){
+      remoteError(profileRes.error,'Không tải được hồ sơ tài khoản. Hãy kiểm tra schema Supabase.');
+      return false;
+    }
+    currentUserProfile = profileRes.data;
+    if(!isAccountActive(currentUserProfile)){
+      const reason = currentUserProfile.status === 'suspended' ? 'Tài khoản đang bị tạm khóa.' : 'Tài khoản đã hết hạn.';
+      await supabaseClient.auth.signOut();
+      showAuthGate(reason+' Vui lòng liên hệ Admin để được hỗ trợ.');
+      return false;
+    }
+    currentUserId = ownId;
+
+    const profilesQuery = isAdmin() ? supabaseClient.from('profiles').select('*').order('created_at',{ascending:false}) : supabaseClient.from('profiles').select('*').eq('id',ownId);
+    const profilesRes = await profilesQuery;
+    if(profilesRes.error){ remoteError(profilesRes.error,'Không tải được danh sách người dùng.'); return false; }
+    users = {};
+    (profilesRes.data || []).forEach(function(u){ users[u.id]=u; });
+
+    const decksRes = await supabaseClient.from('decks').select('*').order('sort_order',{ascending:true}).order('created_at',{ascending:true});
+    if(decksRes.error){ remoteError(decksRes.error,'Không tải được bộ thẻ.'); return false; }
+    decks = {}; order = [];
+    (decksRes.data || []).forEach(function(d){ decks[d.id]={id:d.id,name:d.name,cards:Array.isArray(d.cards)?d.cards:[]}; order.push(d.id); });
+
+    const resourcesRes = await supabaseClient.from('resources').select('*').order('created_at',{ascending:false});
+    if(resourcesRes.error){ remoteError(resourcesRes.error,'Không tải được kho tài liệu.'); return false; }
+    resources = resourcesRes.data || [];
+
+    const progressQuery = isAdmin() ? supabaseClient.from('progress').select('*') : supabaseClient.from('progress').select('*').eq('user_id',ownId);
+    const progressRes = await progressQuery;
+    if(progressRes.error){ remoteError(progressRes.error,'Không tải được tiến độ học.'); return false; }
+    progress = {};
+    (progressRes.data || []).forEach(function(r){
+      if(!progress[r.user_id]) progress[r.user_id] = {};
+      progress[r.user_id][r.card_id] = {level:r.level,streak:r.streak,seen:r.seen,correct:r.correct,wrong:r.wrong,lastSeenAt:r.last_seen_at?new Date(r.last_seen_at).getTime():null,nextDueAt:r.next_due_at?new Date(r.next_due_at).getTime():null};
+    });
+
+    const sessionQuery = isAdmin() ? supabaseClient.from('study_sessions').select('*').order('started_at',{ascending:false}).limit(3000) : supabaseClient.from('study_sessions').select('*').eq('user_id',ownId).order('started_at',{ascending:false}).limit(500);
+    const sessionRes = await sessionQuery;
+    if(sessionRes.error){ remoteError(sessionRes.error,'Không tải được lịch sử học.'); return false; }
+    stats.sessions = (sessionRes.data || []).map(function(s){ return {id:s.id,userId:s.user_id,userName:(users[s.user_id]&&users[s.user_id].display_name)||'?',deckId:s.deck_id,deckName:s.deck_name,date:s.started_at,total:s.total,correct:s.correct,avgMs:s.avg_ms}; });
+
+    const usageQuery = isAdmin() ? supabaseClient.from('user_usage').select('*') : supabaseClient.from('user_usage').select('*').eq('user_id',ownId);
+    const usageRes = await usageQuery;
+    if(usageRes.error){ remoteError(usageRes.error,'Không tải được thống kê thời gian sử dụng.'); return false; }
+    stats.usageByUser = {};
+    (usageRes.data || []).forEach(function(r){ stats.usageByUser[r.user_id] = Number(r.usage_ms || 0); });
+
+    if(isAdmin()){
+      const termsRes = await supabaseClient.from('terms_acceptances').select('*').order('accepted_at',{ascending:false}).limit(3000);
+      if(termsRes.error){ remoteError(termsRes.error,'Không tải được lịch sử chấp thuận điều khoản.'); return false; }
+      termsAcceptances = termsRes.data || [];
+    } else {
+      termsAcceptances = [];
+    }
+    return true;
+  }
+
+  async function saveProfileToDb(){
+    if(!remoteReady || !currentUserId || !currentUserProfile) return;
+    const payload={display_name:currentUserProfile.display_name,gender:userGender(currentUserProfile)};
+    const {error}=await supabaseClient.from('profiles').update(payload).eq('id',currentUserId);
+    if(error) remoteError(error,'Không lưu được hồ sơ.');
+  }
+  async function saveDecks(){
+    if(!remoteReady || !isAdmin()) return;
+    const payload=order.filter(function(id){return decks[id];}).map(function(id,i){ return {id:id,name:decks[id].name,cards:decks[id].cards,sort_order:i,is_published:true}; });
+    if(!payload.length) return;
+    const {error}=await supabaseClient.from('decks').upsert(payload,{onConflict:'id'});
+    if(error) remoteError(error,'Không lưu được bộ thẻ.');
+  }
+  async function saveOrder(){
+    if(!remoteReady || !isAdmin()) return;
+    await saveDecks();
+  }
+  async function deleteDeckRemote(id){
+    if(!remoteReady || !isAdmin()) return;
+    const {error}=await supabaseClient.from('decks').delete().eq('id',id);
+    if(error) remoteError(error,'Không xoá được bộ thẻ trên database.');
+  }
+  async function persistProgressRecord(userId,cardId,rec){
+    if(!remoteReady || !userId) return;
+    const payload={user_id:userId,card_id:cardId,level:rec.level,streak:rec.streak,seen:rec.seen,correct:rec.correct,wrong:rec.wrong,last_seen_at:rec.lastSeenAt?new Date(rec.lastSeenAt).toISOString():null,next_due_at:rec.nextDueAt?new Date(rec.nextDueAt).toISOString():null};
+    const {error}=await supabaseClient.from('progress').upsert(payload,{onConflict:'user_id,card_id'});
+    if(error) remoteError(error,'Không đồng bộ được tiến độ của thẻ.');
+  }
+  async function recordSessionToDb(s){
+    if(!remoteReady || !currentUserId) return;
+    const {error}=await supabaseClient.from('study_sessions').insert({id:s.id,user_id:currentUserId,deck_id:s.deckId,deck_name:s.deckName,total:s.total,correct:s.correct,avg_ms:s.avgMs,started_at:s.date});
+    if(error) remoteError(error,'Không lưu được lượt học.');
+  }
+  async function saveUsageToDb(userId,usageMs){
+    if(!remoteReady || !userId) return;
+    const {error}=await supabaseClient.from('user_usage').upsert({user_id:userId,usage_ms:Math.round(usageMs)},{onConflict:'user_id'});
+    if(error) remoteError(error,'Không lưu được thời gian sử dụng.');
+  }
+  async function saveResources(){
+    if(!remoteReady || !isAdmin()) return;
+    const payload=resources.map(function(r){return {id:r.id,title:r.title,type:r.type||'Tài liệu',url:r.url||null,description:r.description||null,content:r.content||null,is_published:true,created_by:r.created_by||currentUserId};});
+    if(!payload.length) return;
+    const {error}=await supabaseClient.from('resources').upsert(payload,{onConflict:'id'});
+    if(error) remoteError(error,'Không lưu được tài liệu.');
+  }
+
+  /* ============================================================
+     USAGE TIME TRACKING
+  ============================================================ */
+  let lastFlush = Date.now();
+  let usageWriteTimer = null;
+  function flushUsage(){
+    const now=Date.now();
+    const delta=now-lastFlush;
+    if(delta>0 && currentUserId){
+      stats.usageByUser[currentUserId]=(stats.usageByUser[currentUserId]||0)+delta;
+      clearTimeout(usageWriteTimer);
+      usageWriteTimer=setTimeout(function(){ saveUsageToDb(currentUserId,stats.usageByUser[currentUserId]||0); },250);
+    }
+    lastFlush=now;
+  }
+  setInterval(flushUsage,5000);
+  window.addEventListener('beforeunload',flushUsage);
+  document.addEventListener('visibilitychange',function(){if(document.hidden)flushUsage();else lastFlush=Date.now();});
+
+  /* ============================================================
+     PROGRESS / MASTERY (per user, per card, leitner-style)
+  ============================================================ */
+  const LEVEL_INTERVALS = [5*60*1000, 6*60*60*1000, 24*60*60*1000, 3*24*60*60*1000, 7*24*60*60*1000, 14*24*60*60*1000];
+  function getCardProgress(userId, cardId){
+    return (progress[userId] && progress[userId][cardId]) || null;
+  }
+  function updateCardProgress(userId, cardId, correct){
+    if(!progress[userId]) progress[userId] = {};
+    const rec = progress[userId][cardId] || {level:0, streak:0, seen:0, correct:0, wrong:0, lastSeenAt:null, nextDueAt:null};
+    rec.seen++;
+    if(correct){ rec.correct++; rec.streak++; rec.level = Math.min(rec.level+1, 5); }
+    else { rec.wrong++; rec.streak = 0; rec.level = Math.max(rec.level-1, 0); }
+    rec.lastSeenAt = Date.now();
+    rec.nextDueAt = Date.now() + LEVEL_INTERVALS[rec.level];
+    progress[userId][cardId] = rec;
+    persistProgressRecord(userId,cardId,rec);
+  }
+  function cardStatus(userId, cardId){
+    const rec = getCardProgress(userId, cardId);
+    if(!rec || !rec.lastSeenAt) return 'new';
+    if(rec.level >= 4 && rec.nextDueAt > Date.now()) return 'mastered';
+    return 'review';
+  }
+  function isDue(userId, cardId){
+    const rec = getCardProgress(userId, cardId);
+    return !!(rec && rec.nextDueAt && rec.nextDueAt <= Date.now());
+  }
+  function isWeak(userId, cardId){
+    const rec = getCardProgress(userId, cardId);
+    return !!(rec && rec.seen > 0 && rec.level < 4);
+  }
+  function computeLearningCounts(userId){
+    const g = computeGlobalMastery(userId);
+    const all = {unlearned:g.newC + g.reviewC, due:0, seen:0, weak:0};
+    order.filter(function(id){return decks[id];}).forEach(function(deckId){
+      decks[deckId].cards.forEach(function(c){
+        const rec = getCardProgress(userId,c.id);
+        if(rec && rec.seen>0) all.seen++;
+        if(isDue(userId,c.id)) all.due++;
+        if(isWeak(userId,c.id)) all.weak++;
+      });
+    });
+    return all;
+  }
+
+  function computeDeckCounts(userId, deckId){
+    const deck = decks[deckId];
+    const out = {newC:0, reviewC:0, masteredC:0, total: deck ? deck.cards.length : 0};
+    if(!deck) return out;
+    deck.cards.forEach(function(c){
+      const st = cardStatus(userId, c.id);
+      if(st==='new') out.newC++; else if(st==='review') out.reviewC++; else out.masteredC++;
+    });
+    return out;
+  }
+  function computeGlobalMastery(userId){
+    const out = {newC:0, reviewC:0, masteredC:0, total:0};
+    order.filter(function(id){return decks[id];}).forEach(function(deckId){
+      const c = computeDeckCounts(userId, deckId);
+      out.newC += c.newC; out.reviewC += c.reviewC; out.masteredC += c.masteredC; out.total += c.total;
+    });
+    return out;
+  }
+  function countAllReviewCards(userId){ return computeGlobalMastery(userId).reviewC; }
+
+  /* ============================================================
+     TABS
+  ============================================================ */
+  const tabButtons = document.querySelectorAll('nav.tabs button');
+  const panels = { study: document.getElementById('panel-study'), library: document.getElementById('panel-library'), mystats: document.getElementById('panel-mystats'), admin: document.getElementById('panel-admin') };
+  function activateTab(name){
+    tabButtons.forEach(function(b){ b.classList.toggle('active', b.dataset.tab === name); });
+    Object.keys(panels).forEach(function(k){ panels[k].classList.toggle('active', k === name); });
+    if(name === 'library') renderLibrary();
+    if(name === 'mystats') renderMyStats();
+    if(name === 'admin') renderAdmin();
+    if(name === 'study') renderStudy();
+  }
+  tabButtons.forEach(function(btn){ btn.addEventListener('click', function(){ activateTab(btn.dataset.tab); }); });
+
+  /* ============================================================
+     USER / PROFILE
+  ============================================================ */
+  function userGender(u){ return u && (u.gender==='male'||u.gender==='female') ? u.gender : 'female'; }
+  function userAvatar(u){ return userGender(u)==='male' ? '🌊' : '🌷'; }
+  function userStyleLabel(u){ return userGender(u)==='male' ? 'Phong cách Ocean Aurora ✦' : 'Phong cách Rose Aurora ✦'; }
+  function applyCurrentProfileUI(){
+    const u=users[currentUserId] || currentUserProfile;
+    if(!u) return;
+    currentUserProfile=u;
+    setGenderTheme(userGender(u));
+    const avatar=userAvatar(u);
+    const a=document.getElementById('userAvatar'); if(a)a.textContent=avatar;
+    const hn=document.getElementById('heroName'); if(hn)hn.textContent=u.display_name || u.name || 'Người học';
+    const hs=document.getElementById('heroStyle'); if(hs)hs.textContent=userStyleLabel(u);
+    const an=document.getElementById('accountName'); if(an)an.textContent=u.display_name || u.name || 'Người học';
+    const ae=document.getElementById('accountEmail'); if(ae)ae.textContent=u.email || authUser?.email || '—';
+    const adminBtn=document.querySelector('nav.tabs button[data-tab="admin"]'); if(adminBtn)adminBtn.style.display=isAdmin()?'':'none';
+  }
+
+  const profileModal=document.getElementById('profileModal');
+  const profileNameInput=document.getElementById('profileNameInput');
+  let profileGenderChoice='female';
+  function openProfileModal(){
+    const u=users[currentUserId] || currentUserProfile || {};
+    profileNameInput.value=u.display_name || u.name || '';
+    profileGenderChoice=userGender(u);
+    document.querySelectorAll('[data-gender-choice]').forEach(function(b){b.classList.toggle('selected',b.dataset.genderChoice===profileGenderChoice);});
+    document.getElementById('profileTitle').textContent='Hồ sơ của bạn 💎';
+    profileModal.classList.add('open'); profileModal.setAttribute('aria-hidden','false');
+    setTimeout(function(){profileNameInput.focus();},50);
+  }
+  function closeProfileModal(){ profileModal.classList.remove('open');profileModal.setAttribute('aria-hidden','true'); }
+  document.querySelectorAll('[data-gender-choice]').forEach(function(b){b.addEventListener('click',function(){profileGenderChoice=b.dataset.genderChoice;document.querySelectorAll('[data-gender-choice]').forEach(function(x){x.classList.toggle('selected',x===b);});});});
+  document.getElementById('profileCancelBtn').addEventListener('click',closeProfileModal);
+  profileModal.addEventListener('click',function(e){if(e.target===profileModal)closeProfileModal();});
+  document.getElementById('profileSaveBtn').addEventListener('click',async function(){
+    const name=profileNameInput.value.trim();
+    if(!name){toast('Bạn chưa nhập tên nhé ✨');profileNameInput.focus();return;}
+    const u=users[currentUserId]||currentUserProfile;
+    if(u){u.display_name=name;u.gender=profileGenderChoice;currentUserProfile=u;users[currentUserId]=u;applyCurrentProfileUI();await saveProfileToDb();renderStudy();if(panels.mystats.classList.contains('active'))renderMyStats();closeProfileModal();toast('Đã cập nhật hồ sơ ✨');}
+  });
+  document.getElementById('profileBtn').addEventListener('click',openProfileModal);
+
+  /* ============================================================
+     AUTH / CONTACT / ACCESS CONTROL
+  ============================================================ */
+  const authGate=document.getElementById('authGate');
+  const appShell=document.querySelector('.wrap');
+  const authError=document.getElementById('authError');
+  const loginForm=document.getElementById('loginForm');
+  const loginBtn=document.getElementById('loginBtn');
+  const backendSetupNote=document.getElementById('backendSetupNote');
+  const TERMS_VERSION='2026-09-20-v1';
+  function setAuthError(msg){authError.textContent=msg||'';}
+  function showAuthGate(msg){
+    appShell.style.display='none'; authGate.style.display='flex'; remoteReady=false; booting=false; currentUserId=null; currentUserProfile=null; authUser=null; users={}; decks={}; order=[]; progress={}; stats={usageByUser:{},sessions:[]}; resources=[];
+    setAuthError(msg||'');
+    if(backendSetupNote){
+      backendSetupNote.style.display=CONFIG_OK?'none':'block';
+      backendSetupNote.innerHTML=CONFIG_OK?'':'<b>Website chưa được cấu hình database.</b><br>Hãy tạo <code>supabase-config.js</code> từ file mẫu và điền Supabase URL + publishable key trước khi deploy.';
+    }
+  }
+  function showApp(){authGate.style.display='none';appShell.style.display='block';}
+  async function loginWithPassword(email,password){
+    if(!supabaseClient){showAuthGate('Database chưa được cấu hình.');return;}
+    setAuthError(''); loginBtn.disabled=true; loginBtn.textContent='Đang đăng nhập...';
+    try{
+      const {data,error}=await supabaseClient.auth.signInWithPassword({email:email.trim(),password});
+      if(error){setAuthError('Đăng nhập không thành công. Kiểm tra email/mật khẩu hoặc liên hệ Admin.');console.error(error);return;}
+      if(data.user) await handleSignedIn(data.user);
+    }catch(err){
+      console.error(err);
+      setAuthError('Không kết nối được tới máy chủ. Kiểm tra mạng rồi thử lại.');
+    }finally{
+      loginBtn.disabled=false; loginBtn.textContent='✨ Đăng nhập';
+    }
+  }
+  async function handleSignedIn(user){
+    if(booting) return; booting=true;
+    authUser=user;
+    const ok=await loadRemoteData();
+    if(!ok){booting=false;return;}
+    remoteReady=true;lastFlush=Date.now();showApp();applyCurrentProfileUI();renderRoleUI();activateTab('study');renderStudy();renderLibrary();renderMyStats();booting=false;
+    toast('Chào mừng '+(currentUserProfile.display_name||'bạn')+' ✨');
+  }
+  async function logout(){
+    flushUsage();
+    if(supabaseClient) await supabaseClient.auth.signOut();
+    showAuthGate('Bạn đã đăng xuất.');
+  }
+  async function requestPasswordReset(){
+    const email=document.getElementById('loginEmail').value.trim();
+    if(!email){setAuthError('Nhập email trước khi chọn “Quên mật khẩu?”.');return;}
+    const {error}=await supabaseClient.auth.resetPasswordForEmail(email,{redirectTo:window.location.href});
+    if(error){setAuthError('Không gửi được email khôi phục mật khẩu.');console.error(error);return;}
+    setAuthError('Đã gửi hướng dẫn đổi mật khẩu tới email nếu tài khoản hợp lệ.');
+  }
+  loginForm.addEventListener('submit',function(e){e.preventDefault();loginWithPassword(document.getElementById('loginEmail').value,document.getElementById('loginPassword').value);});
+  document.getElementById('forgotPasswordBtn').addEventListener('click',requestPasswordReset);
+  document.getElementById('logoutBtn').addEventListener('click',logout);
+
+  const termsModal=document.getElementById('termsModal');
+  const termsAgree=document.getElementById('termsAgree');
+  function openTerms(){termsAgree.checked=false;document.getElementById('contactFacebookBtn').disabled=true;document.getElementById('contactEmailBtn').disabled=true;termsModal.classList.add('open');termsModal.setAttribute('aria-hidden','false');}
+  function closeTerms(){termsModal.classList.remove('open');termsModal.setAttribute('aria-hidden','true');}
+  async function recordTermsAcceptance(){
+    if(!remoteReady || !currentUserId) return true;
+    const {error}=await supabaseClient.from('terms_acceptances').insert({user_id:currentUserId,terms_version:TERMS_VERSION});
+    if(error){remoteError(error,'Không ghi nhận được việc đồng ý điều khoản.');return false;}
+    return true;
+  }
+  async function contactAfterTerms(kind){
+    if(!termsAgree.checked){toast('Hãy tích đồng ý điều khoản trước nhé.');return;}
+    const ok=await recordTermsAcceptance(); if(!ok)return;
+    closeTerms();
+    if(kind==='facebook') window.open('https://www.facebook.com/ghuybboi','_blank','noopener');
+    else window.location.href='mailto:huynhgiahuys3883@gmail.com?subject=Li%C3%AAn%20h%E1%BB%87%20Admin%20Flashcard';
+  }
+  termsAgree.addEventListener('change',function(){document.getElementById('contactFacebookBtn').disabled=!termsAgree.checked;document.getElementById('contactEmailBtn').disabled=!termsAgree.checked;});
+  document.getElementById('contactAdminBtn').addEventListener('click',openTerms);
+  document.getElementById('footerContactBtn').addEventListener('click',openTerms);
+  document.getElementById('termsCloseBtn').addEventListener('click',closeTerms);
+  document.getElementById('contactFacebookBtn').addEventListener('click',function(){contactAfterTerms('facebook');});
+  document.getElementById('contactEmailBtn').addEventListener('click',function(){contactAfterTerms('email');});
+  termsModal.addEventListener('click',function(e){if(e.target===termsModal)closeTerms();});
+
+  function renderRoleUI(){
+    const adminBtn=document.querySelector('nav.tabs button[data-tab="admin"]');
+    if(adminBtn)adminBtn.style.display=isAdmin()?'':'none';
+    const accountEmail=document.getElementById('accountEmail'); if(accountEmail)accountEmail.title=(currentUserProfile&&currentUserProfile.expires_at)?('Hết hạn: '+new Date(currentUserProfile.expires_at).toLocaleString('vi-VN')):'';
+  }
+
+  async function adminChangePass(){
+    if(!isAdmin()) return;
+    const next=prompt('Nhập mật khẩu Admin mới (ít nhất 6 ký tự):');
+    if(!next || next.length<6){toast('Mật khẩu quá ngắn.');return;}
+    const confirmNext=prompt('Nhập lại mật khẩu mới:');
+    if(next!==confirmNext){toast('Hai mật khẩu không trùng nhau.');return;}
+    const {error}=await supabaseClient.auth.updateUser({password:next});
+    if(error){remoteError(error,'Không đổi được mật khẩu Admin.');return;}
+    toast('Đã đổi mật khẩu Admin 🔐');
+  }
+
+  async function adminCreateUser(form){
+    if(!isAdmin()) return;
+    const email=form.email.trim().toLowerCase(); const password=form.password; const display_name=form.display_name.trim(); const gender=form.gender; const days=Math.max(1,Math.min(3650,Number(form.days)||30));
+    if(!email||!password||password.length<6||!display_name){toast('Hãy nhập đủ email, tên và mật khẩu (từ 6 ký tự).');return;}
+    const {data,error}=await supabaseClient.functions.invoke('admin-manage-user',{body:{action:'create',email,password,display_name,gender,days}});
+    if(error){let msg=error.message;try{const ctx=await error.context?.json();if(ctx?.error)msg=ctx.error;}catch(_e){};remoteError(error,msg||'Không tạo được tài khoản.');return;}
+    if(data?.error){toast(data.error);return;}
+    toast('Đã cấp tài khoản cho '+display_name+' ✅');
+    await loadRemoteData();renderAdmin();
+  }
+
+  async function adminSetProfile(userId,patch){
+    if(!isAdmin() || userId===currentUserId) return;
+    const {data,error}=await supabaseClient.from('profiles').update(patch).eq('id',userId).select('*').single();
+    if(error){remoteError(error,'Không cập nhật được tài khoản.');return;}
+    users[userId]=data;toast('Đã cập nhật tài khoản.');await loadRemoteData();renderAdmin();
+  }
+  async function adminSetPassword(userId){
+    if(!isAdmin()) return;
+    const password=prompt('Mật khẩu mới cho tài khoản này (ít nhất 6 ký tự):');
+    if(!password || password.length<6){toast('Mật khẩu quá ngắn.');return;}
+    const confirmPassword=prompt('Nhập lại mật khẩu mới:');
+    if(password!==confirmPassword){toast('Hai mật khẩu không trùng nhau.');return;}
+    const {data,error}=await supabaseClient.functions.invoke('admin-manage-user',{body:{action:'set_password',user_id:userId,password}});
+    if(error){remoteError(error,'Không đặt lại được mật khẩu.');return;}
+    if(data?.error){toast(data.error);return;} toast('Đã đổi mật khẩu tài khoản.');
+  }
+  async function adminDeleteUser(userId){
+    if(!isAdmin() || userId===currentUserId) return;
+    const name=users[userId]?.display_name||'tài khoản này';
+    if(!confirm('Xoá vĩnh viễn '+name+' cùng tiến độ và lịch sử học? Thao tác này không thể hoàn tác.')) return;
+    const {data,error}=await supabaseClient.functions.invoke('admin-manage-user',{body:{action:'delete',user_id:userId}});
+    if(error){remoteError(error,'Không xoá được tài khoản.');return;}
+    if(data?.error){toast(data.error);return;} await loadRemoteData();adminDetailUserId=null;renderAdmin();toast('Đã xoá tài khoản.');
+  }
+
+  async function bootApp(){
+    if(!CONFIG_OK || !supabaseClient){showAuthGate();return;}
+    try{
+      const {data:{session}}=await supabaseClient.auth.getSession();
+      if(session?.user) await handleSignedIn(session.user); else showAuthGate();
+      supabaseClient.auth.onAuthStateChange(function(event,session){
+        if(event==='SIGNED_OUT'){showAuthGate();return;}
+        if(event==='PASSWORD_RECOVERY'){
+          setTimeout(async function(){
+            const next=prompt('Nhập mật khẩu mới (ít nhất 6 ký tự):');
+            if(!next || next.length<6){toast('Mật khẩu quá ngắn.');return;}
+            const again=prompt('Nhập lại mật khẩu mới:');
+            if(next!==again){toast('Hai mật khẩu không trùng nhau.');return;}
+            const {error}=await supabaseClient.auth.updateUser({password:next});
+            if(error){toast('Không đổi được mật khẩu.');console.error(error);return;}
+            toast('Đã đổi mật khẩu thành công 🔐');
+          },0);
+          return;
+        }
+        if((event==='SIGNED_IN'||event==='USER_UPDATED') && session?.user){setTimeout(function(){handleSignedIn(session.user);},0);}
+      });
+    }catch(err){console.error(err);showAuthGate('Không khởi tạo được phiên đăng nhập.');}
+  }
+
+  /* ============================================================
+     SHARED DECK SELECT FILL
+  ============================================================ */
+  function fillPlainDeckSelect(sel, selectedId){
+    sel.innerHTML = '';
+    order.filter(function(id){return decks[id];}).forEach(function(id){
+      const opt = document.createElement('option');
+      opt.value = id; opt.textContent = decks[id].name+' ('+decks[id].cards.length+' thẻ)';
+      sel.appendChild(opt);
+    });
+    if(selectedId && decks[selectedId]) sel.value = selectedId;
+  }
+
+  /* ============================================================
+     STUDY MODE
+  ============================================================ */
+  const studyDeckSelect = document.getElementById('studyDeckSelect');
+  const stage = document.getElementById('studyStage');
+  const progressBar = document.getElementById('progressBar');
+  const shuffleToggle = document.getElementById('shuffleToggle');
+  const modeSelect = document.getElementById('modeSelect');
+  const modeWrap = document.getElementById('modeWrap');
+
+  let session = null;
+
+  function shuffleArr(a){
+    const arr = a.slice();
+    for(let i=arr.length-1;i>0;i--){ const j = Math.floor(Math.random()*(i+1)); const t=arr[i]; arr[i]=arr[j]; arr[j]=t; }
+    return arr;
+  }
+  function filterCardsByMode(deckId, mode){
+    const deck = decks[deckId];
+    if(!deck) return [];
+    if(mode === 'all') return deck.cards.map(function(c){ return {id:c.id,q:c.q,a:c.a}; });
+    return deck.cards.filter(function(c){
+      const st = cardStatus(currentUserId, c.id);
+      if(mode === 'new') return st === 'new';
+      if(mode === 'review') return st === 'review';
+      if(mode === 'due') return isDue(currentUserId, c.id);
+      if(mode === 'weak') return isWeak(currentUserId, c.id);
+      if(mode === 'seen') return st !== 'new';
+      return true;
+    }).map(function(c){ return {id:c.id,q:c.q,a:c.a}; });
+  }
+  function buildReviewAllQueue(userId, mode){
+    const list = [];
+    mode = mode || 'review';
+    order.filter(function(id){return decks[id];}).forEach(function(deckId){
+      decks[deckId].cards.forEach(function(c){
+        const ok = mode === 'review' ? cardStatus(userId,c.id) === 'review'
+          : mode === 'due' ? isDue(userId,c.id)
+          : mode === 'weak' ? isWeak(userId,c.id)
+          : mode === 'seen' ? cardStatus(userId,c.id) !== 'new'
+          : false;
+        if(ok) list.push({id:c.id, q:c.q, a:c.a});
+      });
+    });
+    return list;
+  }
+
+  function fillStudyDeckSelect(selectedValue){
+    studyDeckSelect.innerHTML = '';
+    const optAll = document.createElement('option');
+    optAll.value = '__reviewall__';
+    optAll.textContent = '🔁 Ôn tập tổng hợp — cần ôn: '+countAllReviewCards(currentUserId);
+    studyDeckSelect.appendChild(optAll);
+    const lc = computeLearningCounts(currentUserId);
+    [['__dueall__','⏰ Tất cả từ đến hạn — '+lc.due],['__weakall__','🧠 Tất cả từ yếu — '+lc.weak],['__seenall__','📖 Ôn bài cũ — '+lc.seen]].forEach(function(x){
+      const o=document.createElement('option'); o.value=x[0]; o.textContent=x[1]; studyDeckSelect.appendChild(o);
+    });
+    order.filter(function(id){return decks[id];}).forEach(function(id){
+      const opt = document.createElement('option');
+      opt.value = id; opt.textContent = decks[id].name+' ('+decks[id].cards.length+' thẻ)';
+      studyDeckSelect.appendChild(opt);
+    });
+    if(selectedValue && (selectedValue === '__reviewall__' || decks[selectedValue])) studyDeckSelect.value = selectedValue;
+  }
+
+  function startSession(deckId){
+    let pool, deckNameForSession;
+    if(deckId === '__reviewall__' || deckId === '__dueall__' || deckId === '__weakall__' || deckId === '__seenall__'){
+      const globalMode = deckId === '__dueall__' ? 'due' : deckId === '__weakall__' ? 'weak' : deckId === '__seenall__' ? 'seen' : 'review';
+      pool = buildReviewAllQueue(currentUserId, globalMode);
+      deckNameForSession = globalMode === 'due' ? 'Ôn các từ đến hạn' : globalMode === 'weak' ? 'Ôn các từ yếu' : globalMode === 'seen' ? 'Ôn bài cũ' : 'Ôn tập tổng hợp';
+    } else {
+      const deck = decks[deckId];
+      if(!deck){ session = null; renderStudy(); return; }
+      pool = filterCardsByMode(deckId, modeSelect.value);
+      deckNameForSession = deck.name;
+    }
+    if(shuffleToggle.checked) pool = shuffleArr(pool);
+    session = { deckId: deckId, deckName: deckNameForSession, queue: pool, idx: 0, correct: 0, times: [], cardShownAt: Date.now(), flipped: false, finished: false };
+    renderStudy();
+  }
+
+  function renderStudy(){
+    const wantSelected = session ? session.deckId : currentDeckIdSafe();
+    fillStudyDeckSelect(wantSelected);
+    const activeDeckId = studyDeckSelect.value;
+    modeSelect.disabled = (activeDeckId === '__reviewall__' || activeDeckId === '__dueall__' || activeDeckId === '__weakall__' || activeDeckId === '__seenall__');
+    modeWrap.style.opacity = modeSelect.disabled ? '.45' : '1';
+
+    if(!activeDeckId){
+      stage.innerHTML = '<div class="empty-state"><span class="big-emoji">🗂️</span>Chưa có bộ thẻ nào.<br>Sang tab "Kho tài liệu" để xem hoặc nhờ Admin thêm bộ thẻ nhé!</div>';
+      progressBar.style.width = '0%';
+      return;
+    }
+    if(!session || session.deckId !== activeDeckId){ startSession(activeDeckId); return; }
+
+    if(session.finished){
+      const total = session.times.length;
+      const avgSec = total ? (session.times.reduce(function(a,b){return a+b;},0)/total/1000) : 0;
+      const pct = total ? Math.round(session.correct/total*100) : 0;
+      stage.innerHTML =
+        '<div class="summary">'+
+          '<div style="font-size:36px;">🎉</div>'+
+          '<div class="score">'+session.correct+'/'+total+'</div>'+
+          '<div style="color:var(--text-dim);font-size:13.5px;">đúng ('+pct+'%)</div>'+
+          '<div class="summary-grid">'+
+            '<div class="mini"><b>'+avgSec.toFixed(1)+'s</b><span>thời gian TB/câu</span></div>'+
+            '<div class="mini"><b>'+pct+'%</b><span>độ chính xác</span></div>'+
+            '<div class="mini"><b>'+total+'</b><span>số câu đã học</span></div>'+
+          '</div>'+
+          '<button class="btn btn-primary" id="againBtn">🔁 Học lại bộ này</button>'+
+        '</div>';
+      progressBar.style.width = '100%';
+      document.getElementById('againBtn').addEventListener('click', function(){ startSession(session.deckId); });
+      return;
+    }
+
+    if(session.queue.length === 0){
+      if(activeDeckId === '__reviewall__' || activeDeckId === '__dueall__' || activeDeckId === '__weakall__' || activeDeckId === '__seenall__'){
+        stage.innerHTML = '<div class="empty-state"><span class="big-emoji">🎉</span>Không có từ nào cần ôn lại lúc này!<br>Quay lại sau hoặc học thêm thẻ mới nhé.</div>';
+      } else {
+        const deck = decks[activeDeckId];
+        if(deck && deck.cards.length === 0){
+          stage.innerHTML = '<div class="empty-state"><span class="big-emoji">🌱</span>Bộ thẻ này chưa có câu hỏi nào.<br>Sang tab "Kho tài liệu" để thêm câu hỏi nhé!</div>';
+        } else {
+          stage.innerHTML = '<div class="empty-state"><span class="big-emoji">✨</span>Không có thẻ nào khớp với chế độ học đã chọn.<br>Thử đổi "Chế độ học" khác xem sao!</div>';
+        }
+      }
+      progressBar.style.width = '0%';
+      return;
+    }
+
+    const card = session.queue[session.idx];
+    progressBar.style.width = Math.round((session.idx/session.queue.length)*100)+'%';
+
+    stage.innerHTML =
+      '<div class="flip-scene">'+
+        '<div class="flip-card '+(session.flipped?'flipped':'')+'" id="flipCard">'+
+          '<div class="face face-front"><span class="tag">CÂU HỎI · '+(session.idx+1)+'/'+session.queue.length+'</span><div class="qtext">'+escapeHtml(card.q)+'</div></div>'+
+          '<div class="face face-back"><span class="tag" style="opacity:.8;">ĐÁP ÁN</span><div class="qtext">'+escapeHtml(card.a)+'</div></div>'+
+        '</div>'+
+      '</div>'+
+      '<div class="hint">'+(session.flipped ? 'Bạn đã nhớ đúng chưa?' : 'Nhấn vào thẻ (hoặc phím cách) để xem đáp án')+'</div>'+
+      '<div class="answer-actions" style="visibility:'+(session.flipped?'visible':'hidden')+'">'+
+        '<button class="btn btn-red" id="wrongBtn">😅 Chưa nhớ</button>'+
+        '<button class="btn btn-green" id="rightBtn">✅ Đã nhớ</button>'+
+      '</div>';
+
+    document.getElementById('flipCard').addEventListener('click', flipCard);
+    document.getElementById('wrongBtn').addEventListener('click', function(){ answer(false); });
+    document.getElementById('rightBtn').addEventListener('click', function(){ answer(true); });
+  }
+
+  function flipCard(){
+    if(!session || session.finished) return;
+    session.flipped = !session.flipped;
+    renderStudy();
+  }
+
+  function answer(correct){
+    if(!session) return;
+    const card = session.queue[session.idx];
+    const elapsed = Date.now() - session.cardShownAt;
+    session.times.push(elapsed);
+    if(correct) session.correct++;
+    updateCardProgress(currentUserId, card.id, correct);
+    session.idx++;
+    if(session.idx >= session.queue.length){
+      session.finished = true;
+      const total = session.times.length;
+      const avgMs = total ? Math.round(session.times.reduce(function(a,b){return a+b;},0)/total) : 0;
+      const studySession={
+        id:uid(), userId: currentUserId, userName: users[currentUserId] ? (users[currentUserId].display_name||users[currentUserId].name) : '?',
+        deckId: session.deckId, deckName: session.deckName,
+        date: new Date().toISOString(), total: total, correct: session.correct, avgMs: avgMs
+      };
+      stats.sessions.unshift(studySession);
+      stats.sessions = stats.sessions.slice(0, 300);
+      flushUsage();
+      recordSessionToDb(studySession);
+      saveUsageToDb(currentUserId,stats.usageByUser[currentUserId]||0);
+      toast('Đã lưu kết quả học tập ✨');
+    } else {
+      session.cardShownAt = Date.now();
+      session.flipped = false;
+    }
+    renderStudy();
+  }
+
+  studyDeckSelect.addEventListener('change', function(){ startSession(studyDeckSelect.value); });
+  document.getElementById('restartBtn').addEventListener('click', function(){ if(studyDeckSelect.value) startSession(studyDeckSelect.value); });
+  shuffleToggle.addEventListener('change', function(){ if(session) startSession(session.deckId); });
+  modeSelect.addEventListener('change', function(){ if(session && session.deckId !== '__reviewall__') startSession(session.deckId); });
+
+  document.addEventListener('keydown', function(e){
+    if(!panels.study.classList.contains('active') || !session || session.finished) return;
+    const tag = (document.activeElement && document.activeElement.tagName) || '';
+    if(tag === 'SELECT' || tag === 'INPUT' || tag === 'TEXTAREA') return;
+    if(e.code === 'Space'){ e.preventDefault(); flipCard(); }
+    else if(session.flipped && (e.key === '1' || e.key.toLowerCase() === 'n')) answer(false);
+    else if(session.flipped && (e.key === '2' || e.key.toLowerCase() === 'y')) answer(true);
+  });
+
+  function goStudy(deckId, mode){
+    activateTab('study');
+    if(deckId === '__reviewall__' || deckId === '__dueall__' || deckId === '__weakall__' || deckId === '__seenall__'){
+      studyDeckSelect.value=deckId;
+      startSession(deckId);
+      return;
+    }
+    if(mode) modeSelect.value = mode;
+    startSession(deckId);
+  }
+
+  /* ============================================================
+     LIBRARY TAB (Kho tài liệu) — view for all, edit for Admin
+  ============================================================ */
+  let selectedLibraryDeck = null;
+
+  function renderLibrary(){
+    if(!selectedLibraryDeck || !decks[selectedLibraryDeck]) selectedLibraryDeck = currentDeckIdSafe();
+    const admin = isAdmin();
+
+    const topBox = document.getElementById('libraryTopBox');
+    if(admin){
+      topBox.innerHTML =
+        '<div class="row" style="justify-content:space-between;">'+
+          '<h2 style="margin:0;">Quản lý kho tài liệu (Admin)</h2>'+
+          '<span class="pill mastered">👑 Đang ở chế độ Admin</span>'+
+        '</div>'+
+        '<div class="row" style="margin-top:12px;">'+
+          '<input class="text-input grow" id="newDeckName" placeholder="Tên bộ thẻ mới, ví dụ: Từ vựng Unit 5">'+
+          '<button class="btn btn-primary" id="createDeckBtn">+ Tạo bộ thẻ</button>'+
+        '</div>';
+      document.getElementById('createDeckBtn').addEventListener('click', function(){
+        const nameInput = document.getElementById('newDeckName');
+        const name = nameInput.value.trim();
+        if(!name){ toast('Hãy nhập tên bộ thẻ trước đã~'); return; }
+        const id = uid();
+        decks[id] = { id, name, cards: [] };
+        order.push(id);
+        saveDecks(); saveOrder();
+        selectedLibraryDeck = id;
+        renderLibrary(); renderStudy();
+        toast('Đã tạo bộ thẻ "'+name+'" 🎉');
+      });
+    } else {
+      topBox.innerHTML =
+        '<div class="lock-note">'+
+          '<span>🔒 Bạn đang ở chế độ người học. Chỉ Admin mới có thể thêm, sửa hoặc xoá bộ thẻ và tài liệu.</span>'+
+        '</div>';
+    }
+
+    renderResources(admin);
+    document.getElementById('resourceAdminBox').style.display = admin ? 'block' : 'none';
+    if(admin){
+      renderResourceAdmin();
+    }
+    document.getElementById('importBox').style.display = admin ? 'block' : 'none';
+    if(admin){
+      fillPlainDeckSelect(document.getElementById('importTargetDeck'), selectedLibraryDeck);
+    }
+
+    const listEl = document.getElementById('deckList');
+    listEl.innerHTML = '';
+    order.filter(function(id){return decks[id];}).forEach(function(id){
+      const d = decks[id];
+      const counts = computeDeckCounts(currentUserId, id);
+      const row = document.createElement('div');
+      row.className = 'deck-item'+(id===selectedLibraryDeck?' selected':'');
+      row.innerHTML =
+        '<span class="name">'+escapeHtml(d.name)+'</span>'+
+        '<span class="count">'+d.cards.length+' thẻ · bạn đã thuộc '+counts.masteredC+'</span>'+
+        '<button class="btn btn-soft btn-sm" data-id="'+id+'">Xem</button>';
+      listEl.appendChild(row);
+    });
+    listEl.querySelectorAll('button[data-id]').forEach(function(b){
+      b.addEventListener('click', function(){ selectedLibraryDeck = b.dataset.id; renderLibrary(); });
+    });
+
+    document.getElementById('deleteDeckBtn').style.display = admin ? 'inline-block' : 'none';
+    renderCardTable(admin);
+  }
+
+  function renderCardTable(admin){
+    const body = document.getElementById('cardTableBody');
+    const actionsHead = document.getElementById('cardTableActionsHead');
+    actionsHead.textContent = admin ? 'Sửa' : '';
+    body.innerHTML = '';
+    const deck = decks[selectedLibraryDeck];
+    if(!deck){ body.innerHTML = '<tr><td colspan="3" style="color:var(--text-dim);">Chưa chọn bộ thẻ.</td></tr>'; return; }
+    if(deck.cards.length === 0){ body.innerHTML = '<tr><td colspan="3" style="color:var(--text-dim);">Bộ thẻ này chưa có câu hỏi nào.</td></tr>'; return; }
+    deck.cards.forEach(function(c){
+      const tr = document.createElement('tr');
+      const actions = admin
+        ? '<button class="icon-x" title="Sửa" data-edit="'+c.id+'">✎</button><button class="icon-x" title="Xoá" data-del="'+c.id+'">✕</button>'
+        : '';
+      tr.innerHTML = '<td>'+escapeHtml(c.q)+'</td><td>'+escapeHtml(c.a)+'</td><td>'+actions+'</td>';
+      body.appendChild(tr);
+    });
+    if(admin){
+      body.querySelectorAll('button[data-del]').forEach(function(b){
+        b.addEventListener('click', function(){
+          deck.cards = deck.cards.filter(function(c){ return c.id !== b.dataset.del; });
+          saveDecks();
+          renderCardTable(true); renderLibrary(); renderStudy();
+        });
+      });
+      body.querySelectorAll('button[data-edit]').forEach(function(b){
+        b.addEventListener('click', function(){
+          const card = deck.cards.find(function(c){ return c.id === b.dataset.edit; });
+          if(!card) return;
+          const newQ = prompt('Sửa câu hỏi:', card.q);
+          if(newQ === null) return;
+          const newA = prompt('Sửa đáp án:', card.a);
+          if(newA === null) return;
+          if(newQ.trim()) card.q = newQ.trim();
+          if(newA.trim()) card.a = newA.trim();
+          saveDecks();
+          renderCardTable(true);
+        });
+      });
+    }
+  }
+
+  document.getElementById('deleteDeckBtn').addEventListener('click', function(){
+    if(!isAdmin()) { toast('Chỉ Admin mới có quyền thao tác phần này.'); return; }
+    if(!selectedLibraryDeck || !decks[selectedLibraryDeck]) return;
+    const name = decks[selectedLibraryDeck].name;
+    if(!confirm('Xoá bộ thẻ "'+name+'"? Thao tác này không thể hoàn tác.')) return;
+    const deletedId=selectedLibraryDeck;
+    delete decks[deletedId];
+    order = order.filter(function(id){ return id !== deletedId; });
+    deleteDeckRemote(deletedId);
+    saveDecks(); saveOrder();
+    selectedLibraryDeck = currentDeckIdSafe();
+    renderLibrary(); renderStudy();
+    toast('Đã xoá bộ thẻ "'+name+'"');
+  });
+
+  function renderResources(admin){
+    const el = document.getElementById('resourceList');
+    if(!el) return;
+    if(!resources.length){
+      el.innerHTML = '<div class="empty-state" style="padding:20px 5px;">📭 Admin chưa thêm tài liệu nào.</div>';
+      return;
+    }
+    el.innerHTML = resources.map(function(r){
+      const action = r.url
+        ? '<a class="btn btn-soft btn-sm" href="'+escapeHtml(r.url)+'" target="_blank" rel="noopener">🔗 Mở tài liệu</a>'
+        : '<button class="btn btn-soft btn-sm" data-readres="'+r.id+'">📖 Đọc</button>';
+      return '<div class="deckrow">'+
+        '<div class="drow-top"><span>📄 '+escapeHtml(r.title)+'</span><span class="muted" style="font-weight:400;color:var(--text-dim);font-size:12px;">'+escapeHtml(r.type||'Tài liệu')+'</span></div>'+
+        (r.description ? '<div style="font-size:13px;color:var(--text-dim);margin-bottom:9px;">'+escapeHtml(r.description)+'</div>' : '')+
+        '<div class="row">'+action+'</div>'+
+      '</div>';
+    }).join('');
+    el.querySelectorAll('[data-readres]').forEach(function(b){
+      b.addEventListener('click',function(){
+        const r=resources.find(function(x){return x.id===b.dataset.readres;});
+        if(r) alert(r.content || 'Tài liệu này không có nội dung văn bản.');
+      });
+    });
+  }
+
+  function renderResourceAdmin(){
+    const box=document.getElementById('resourceAdminBox');
+    if(!box) return;
+    box.innerHTML =
+      '<h3 style="margin-top:0;">⚙️ Quản lý tài liệu</h3>'+
+      '<div class="row">'+
+        '<input class="text-input grow" id="resTitle" placeholder="Tên tài liệu">'+
+        '<input class="text-input" id="resType" placeholder="Loại: PDF, Link, Ghi chú..." style="min-width:150px;">'+
+      '</div>'+
+      '<input class="text-input" id="resUrl" placeholder="URL tài liệu (nếu có)" style="width:100%;margin-top:8px;">'+
+      '<input class="text-input" id="resDesc" placeholder="Mô tả ngắn" style="width:100%;margin-top:8px;">'+
+      '<textarea id="resContent" placeholder="Nếu không có URL, có thể dán nội dung tài liệu ở đây..." style="min-height:100px;margin-top:8px;"></textarea>'+
+      '<button class="btn btn-primary" id="addResourceBtn">+ Thêm tài liệu</button>'+
+      '<div style="margin-top:14px;">'+
+      (resources.length ? resources.map(function(r){
+        return '<div class="hist-item"><span><b>'+escapeHtml(r.title)+'</b> · '+escapeHtml(r.type||'Tài liệu')+'</span><button class="icon-x" data-delres="'+r.id+'" title="Xoá">✕</button></div>';
+      }).join('') : '<span style="color:var(--text-dim);font-size:13px;">Chưa có tài liệu.</span>')+
+      '</div>';
+    document.getElementById('addResourceBtn').addEventListener('click',function(){
+      const title=document.getElementById('resTitle').value.trim();
+      if(!title){toast('Hãy nhập tên tài liệu');return;}
+      const url=document.getElementById('resUrl').value.trim();
+      if(url && !/^https?:\/\//i.test(url)){toast('URL phải bắt đầu bằng http:// hoặc https://');return;}
+      resources.unshift({
+        id:uid(), title:title, type:document.getElementById('resType').value.trim()||'Tài liệu',
+        url:url, description:document.getElementById('resDesc').value.trim(),
+        content:document.getElementById('resContent').value.trim(), createdAt:Date.now()
+      });
+      saveResources(); renderLibrary(); toast('Đã thêm tài liệu 📚');
+    });
+    box.querySelectorAll('[data-delres]').forEach(function(b){
+      b.addEventListener('click',function(){
+        const r=resources.find(function(x){return x.id===b.dataset.delres;});
+        if(!r || !confirm('Xoá tài liệu "'+r.title+'"?')) return;
+        const rid=b.dataset.delres;
+        resources=resources.filter(function(x){return x.id!==rid;});
+        if(remoteReady && isAdmin()) supabaseClient.from('resources').delete().eq('id',rid).then(function(res){if(res.error)remoteError(res.error,'Không xoá được tài liệu trên database.');});
+        saveResources(); renderLibrary(); toast('Đã xoá tài liệu');
+      });
+    });
+  }
+
+  function parseImportText(text){
+    const lines = text.split('\n').map(function(l){ return l.trim(); }).filter(Boolean);
+    const cards = [];
+    lines.forEach(function(line){
+      let parts;
+      if(line.indexOf('|') !== -1) parts = line.split('|');
+      else if(line.indexOf('\t') !== -1) parts = line.split('\t');
+      else parts = line.split(',');
+      if(parts.length >= 2){
+        const q = parts[0].trim();
+        const a = parts.slice(1).join(',').trim();
+        if(q && a) cards.push({id: uid(), q: q, a: a});
+      }
+    });
+    return cards;
+  }
+
+  document.getElementById('importBtn').addEventListener('click', function(){
+    if(!isAdmin()){ toast('Chỉ Admin mới có quyền thao tác phần này.'); return; }
+    const targetId = document.getElementById('importTargetDeck').value;
+    if(!targetId || !decks[targetId]){ toast('Hãy tạo một bộ thẻ trước đã~'); return; }
+    const text = document.getElementById('importArea').value;
+    const newCards = parseImportText(text);
+    if(newCards.length === 0){ toast('Không đọc được câu hỏi nào, kiểm tra lại định dạng nhé'); return; }
+    decks[targetId].cards = decks[targetId].cards.concat(newCards);
+    saveDecks();
+    document.getElementById('importArea').value = '';
+    selectedLibraryDeck = targetId;
+    renderLibrary(); renderStudy();
+    toast('Đã thêm '+newCards.length+' thẻ mới ✅');
+  });
+
+  document.getElementById('sampleBtn').addEventListener('click', function(){
+    document.getElementById('importArea').value =
+      'Thủ đô của Nhật Bản là gì? | Tokyo\n'+
+      'Công thức tính diện tích hình tròn? | π × r²\n'+
+      'H2O là công thức hoá học của gì? | Nước\n'+
+      'Tác giả "Truyện Kiều" là ai? | Nguyễn Du';
+  });
+
+  document.getElementById('fileInput').addEventListener('change', function(e){
+    const file = e.target.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = function(ev){
+      document.getElementById('importArea').value = ev.target.result;
+      toast('Đã nạp nội dung file, kiểm tra rồi bấm "Thêm vào bộ thẻ"');
+    };
+    reader.readAsText(file, 'utf-8');
+  });
+
+  /* ============================================================
+     MY STATS TAB
+  ============================================================ */
+  function computeUserSummary(userId){
+    const sessions = stats.sessions.filter(function(s){ return s.userId === userId; });
+    const totalAnswered = sessions.reduce(function(a,s){ return a+s.total; }, 0);
+    const correctSum = sessions.reduce(function(a,s){ return a+s.correct; }, 0);
+    const accuracyPct = totalAnswered ? Math.round(correctSum/totalAnswered*100) : 0;
+    const mastery = computeGlobalMastery(userId);
+    return {
+      usageMs: stats.usageByUser[userId] || 0,
+      sessionsCount: sessions.length,
+      totalAnswered: totalAnswered, correctSum: correctSum, accuracyPct: accuracyPct,
+      newC: mastery.newC, reviewC: mastery.reviewC, masteredC: mastery.masteredC, totalCards: mastery.total,
+      lastActive: sessions.length ? sessions[0].date : null,
+      sessions: sessions
+    };
+  }
+
+  function renderMyStats(){
+    flushUsage();
+    const summary = computeUserSummary(currentUserId);
+
+    const lc = computeLearningCounts(currentUserId);
+    document.getElementById('statOverview').innerHTML =
+      '<div class="stat-card"><div class="num">'+fmtDuration(summary.usageMs)+'</div><div class="lbl">tổng thời gian sử dụng</div></div>'+
+      '<div class="stat-card"><div class="num">'+summary.sessionsCount+'</div><div class="lbl">lượt học hoàn thành</div></div>'+
+      '<div class="stat-card"><div class="num">'+summary.totalAnswered+'</div><div class="lbl">tổng số câu đã trả lời</div></div>'+
+      '<div class="stat-card"><div class="num">'+summary.accuracyPct+'%</div><div class="lbl">độ chính xác trung bình</div></div>'+
+      '<div class="stat-card"><div class="num">'+summary.newC+'</div><div class="lbl">từ chưa học</div></div>'+
+      '<div class="stat-card"><div class="num">'+lc.unlearned+'</div><div class="lbl">từ chưa thuộc</div></div>'+
+      '<div class="stat-card"><div class="num">'+summary.reviewC+'</div><div class="lbl">từ cần ôn lại</div></div>'+
+      '<div class="stat-card"><div class="num">'+lc.due+'</div><div class="lbl">đến hạn ôn hôm nay</div></div>';
+
+    document.getElementById('masteryPills').innerHTML =
+      '<span class="pill new">🌱 Chưa học: '+summary.newC+'</span>'+
+      '<span class="pill review">🔁 Cần ôn: '+summary.reviewC+'</span>'+
+      '<span class="pill review">⏰ Đến hạn: '+lc.due+'</span>'+
+      '<span class="pill review">🧠 Từ yếu: '+lc.weak+'</span>'+
+      '<span class="pill mastered">⭐ Đã thuộc: '+summary.masteredC+'</span>'+
+      '<span class="pill" style="background:var(--surface-2);color:var(--text-dim);">📚 Tổng: '+summary.totalCards+'</span>';
+
+    document.getElementById('quickReviewActions').innerHTML =
+      '<button class="btn btn-primary" data-quick="review">🔁 Ôn '+summary.reviewC+' từ cần ôn</button>'+
+      '<button class="btn btn-soft" data-quick="due">⏰ Ôn '+lc.due+' từ đến hạn</button>'+
+      '<button class="btn btn-soft" data-quick="weak">🧠 Ôn '+lc.weak+' từ yếu</button>'+
+      '<button class="btn btn-soft" data-quick="seen">📖 Ôn bài cũ ('+lc.seen+')</button>';
+    document.getElementById('quickReviewActions').querySelectorAll('[data-quick]').forEach(function(b){
+      b.addEventListener('click',function(){
+        const mode=b.dataset.quick;
+        if(mode==='review') goStudy('__reviewall__','review');
+        else if(mode==='due') goStudy('__dueall__','due');
+        else if(mode==='weak') goStudy('__weakall__','weak');
+        else goStudy('__seenall__','seen');
+      });
+    });
+
+    const byDeckEl = document.getElementById('statByDeck');
+    const deckIds = order.filter(function(id){return decks[id];});
+    if(deckIds.length === 0){
+      byDeckEl.innerHTML = '<div style="color:var(--text-dim);font-size:13.5px;">Chưa có bộ thẻ nào.</div>';
+    } else {
+      byDeckEl.innerHTML = deckIds.map(function(deckId){
+        const d = decks[deckId];
+        const counts = computeDeckCounts(currentUserId, deckId);
+        const deckSessions = summary.sessions.filter(function(s){ return s.deckId === deckId; });
+        const t = deckSessions.reduce(function(a,s){return a+s.total;},0);
+        const c = deckSessions.reduce(function(a,s){return a+s.correct;},0);
+        const pct = t ? Math.round(c/t*100) : 0;
+        const reviewMode = counts.reviewC > 0 ? 'review' : (counts.masteredC+counts.newC>0 && counts.newC < counts.total ? 'seen' : null);
+        const btnLabel = counts.reviewC > 0 ? '🔁 Ôn '+counts.reviewC+' từ cần ôn' : (reviewMode==='seen' ? '📖 Ôn lại toàn bộ đã học' : 'Chưa có gì để ôn');
+        return '<div class="deckrow">'+
+          '<div class="drow-top"><span>'+escapeHtml(d.name)+'</span><span class="muted" style="font-weight:400;color:var(--text-dim);font-size:12px;">'+d.cards.length+' thẻ</span></div>'+
+          '<div class="drow-counts">'+
+            '<span class="pill new">🌱 '+counts.newC+'</span>'+
+            '<span class="pill review">🔁 '+counts.reviewC+'</span>'+
+            '<span class="pill mastered">⭐ '+counts.masteredC+'</span>'+
+          '</div>'+
+          '<div class="bar-row"><span style="width:90px;">Độ chính xác</span><div class="bar-track"><div class="bar-fill" style="width:'+pct+'%"></div></div><span style="width:40px;text-align:right;">'+pct+'%</span></div>'+
+          '<button class="btn btn-soft btn-sm" data-review="'+deckId+'" data-mode="'+(reviewMode||'')+'" '+(reviewMode?'':'disabled')+'>'+btnLabel+'</button>'+
+        '</div>';
+      }).join('');
+      byDeckEl.querySelectorAll('button[data-review]').forEach(function(b){
+        b.addEventListener('click', function(){ if(b.dataset.mode) goStudy(b.dataset.review, b.dataset.mode); });
+      });
+    }
+
+    const histEl = document.getElementById('statHistory');
+    if(summary.sessions.length === 0){
+      histEl.innerHTML = '<div style="color:var(--text-dim);font-size:13.5px;">Chưa có lịch sử học tập.</div>';
+    } else {
+      histEl.innerHTML = summary.sessions.slice(0,20).map(function(s){
+        const d = new Date(s.date);
+        const dateStr = d.toLocaleString('vi-VN', {day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});
+        const pct = s.total ? Math.round(s.correct/s.total*100) : 0;
+        return '<div class="hist-item"><span>'+escapeHtml(s.deckName)+' <span class="muted">— '+s.correct+'/'+s.total+' đúng ('+pct+'%)</span></span><span class="muted">'+dateStr+' · '+(s.avgMs/1000).toFixed(1)+'s/câu</span></div>';
+      }).join('');
+    }
+  }
+
+  /* ============================================================
+     ADMIN TAB — dashboard + account provisioning
+  ============================================================ */
+  let adminDetailUserId=null;
+  function fmtExpiry(expires){
+    if(!expires) return 'Không giới hạn';
+    const d=new Date(expires); const expired=d.getTime()<=Date.now();
+    return (expired?'Đã hết hạn · ':'Đến ')+d.toLocaleDateString('vi-VN');
+  }
+  function statusBadge(u){
+    const expired=u.expires_at && new Date(u.expires_at).getTime()<=Date.now() && u.role!=='admin';
+    if(expired) return '<span class="status-badge status-expired">⏳ Hết hạn</span>';
+    if(u.status==='suspended') return '<span class="status-badge status-suspended">⛔ Đang khóa</span>';
+    return '<span class="status-badge status-active">● Đang hoạt động</span>';
+  }
+  function renderAdmin(){
+    const box=document.getElementById('adminBox');
+    if(!isAdmin()){
+      box.innerHTML='<h2 style="margin-top:0;">Khu vực Admin</h2><div class="lock-note">🔒 Tài khoản hiện tại không có quyền quản trị.</div>';
+      return;
+    }
+    flushUsage();
+    const rows=Object.values(users).map(function(u){return {u:u,s:computeUserSummary(u.id)};}).sort(function(a,b){return b.s.usageMs-a.s.usageMs;});
+    const totalUsers=rows.filter(function(r){return r.u.role!=='admin';}).length;
+    box.innerHTML=
+      '<div class="row" style="justify-content:space-between;">'+
+        '<div><h2 style="margin:0;">Trung tâm quản trị 👑</h2><div class="muted" style="font-size:12px;margin-top:3px;">Quản lý tài khoản, quyền truy cập và thống kê học tập trên database.</div></div>'+
+        '<div class="row" style="gap:8px;">'+
+          '<button class="btn btn-soft btn-sm" id="adminChangePassBtn">Đổi mật khẩu</button>'+
+          '<button class="btn btn-ghost btn-sm" id="adminLogoutBtn">Đăng xuất</button>'+
+        '</div>'+
+      '</div>'+
+      '<div class="stat-grid" style="margin-top:16px;">'+
+        '<div class="stat-card"><div class="num">'+totalUsers+'</div><div class="lbl">người dùng</div></div>'+
+        '<div class="stat-card"><div class="num">'+Object.values(decks).length+'</div><div class="lbl">bộ thẻ</div></div>'+
+        '<div class="stat-card"><div class="num">'+resources.length+'</div><div class="lbl">tài liệu</div></div>'+
+        '<div class="stat-card"><div class="num">'+stats.sessions.length+'</div><div class="lbl">lượt học đã tải</div></div>'+
+      '</div>'+
+      '<div class="admin-user-form">'+
+        '<h3>➕ Cấp tài khoản cho người học</h3>'+
+        '<div class="admin-form-grid">'+
+          '<input class="text-input" id="newUserEmailAdmin" type="email" placeholder="Email đăng nhập">'+
+          '<input class="text-input" id="newUserPasswordAdmin" type="password" placeholder="Mật khẩu tạm (≥ 6 ký tự)">'+
+          '<input class="text-input" id="newUserNameAdmin" placeholder="Tên hiển thị">'+
+          '<select id="newUserGenderAdmin"><option value="female">🌷 Nữ</option><option value="male">🌊 Nam</option></select>'+
+          '<input class="text-input" id="newUserDaysAdmin" type="number" min="1" max="3650" value="30" placeholder="Số ngày hiệu lực">'+
+          '<button class="btn btn-primary" id="createUserAdminBtn">✨ Cấp tài khoản</button>'+
+        '</div>'+
+        '<div class="format-hint">Tài khoản được tạo trên Supabase Auth và tự động có hồ sơ trong database. Admin gửi email + mật khẩu cho người dùng. Mật khẩu không được lưu trong giao diện Admin.</div>'+
+      '</div>'+
+      '<div style="overflow:auto;">'+
+      '<table class="admin-table"><thead><tr>'+
+        '<th>Tài khoản</th><th>Trạng thái</th><th>Thời hạn</th><th>Thời gian dùng</th><th>Lượt học</th><th>Độ chính xác</th><th>Mới/Ôn/Thuộc</th><th></th>'+
+      '</tr></thead><tbody id="adminTableBody"></tbody></table></div>'+
+      '<div id="adminDetail"></div>';
+
+    document.getElementById('adminChangePassBtn').addEventListener('click',adminChangePass);
+    document.getElementById('adminLogoutBtn').addEventListener('click',logout);
+    document.getElementById('createUserAdminBtn').addEventListener('click',function(){adminCreateUser({email:document.getElementById('newUserEmailAdmin').value,password:document.getElementById('newUserPasswordAdmin').value,display_name:document.getElementById('newUserNameAdmin').value,gender:document.getElementById('newUserGenderAdmin').value,days:document.getElementById('newUserDaysAdmin').value});});
+
+    const body=document.getElementById('adminTableBody');
+    body.innerHTML=rows.map(function(r){
+      const u=r.u,s=r.s,last=s.lastActive?new Date(s.lastActive).toLocaleDateString('vi-VN'):'—';
+      const self=u.id===currentUserId;
+      const action=self ? '<span class="muted" style="font-size:11px;">Tài khoản Admin hiện tại</span>' :
+        '<button class="btn btn-soft btn-sm" data-detail="'+u.id+'">Chi tiết</button> '+
+        (u.role==='admin'?'':('<button class="btn btn-soft btn-sm" data-pass="'+u.id+'">Mật khẩu</button> '+
+          '<button class="btn btn-soft btn-sm" data-status="'+u.id+'" data-next="'+(u.status==='suspended'?'active':'suspended')+'">'+(u.status==='suspended'?'Mở khóa':'Khóa')+'</button> '+
+          '<button class="btn btn-soft btn-sm" data-renew="'+u.id+'">Gia hạn</button> '+
+          '<button class="icon-x" title="Xoá tài khoản" data-deluser="'+u.id+'">✕</button>'));
+      return '<tr class="'+(self?'me':'')+'">'+
+        '<td><b>'+escapeHtml(u.display_name||'Người học')+'</b><div class="muted" style="font-size:11px;">'+escapeHtml(u.email||'')+'</div></td>'+
+        '<td>'+statusBadge(u)+'</td>'+
+        '<td><span class="account-expiry">'+fmtExpiry(u.expires_at)+'</span></td>'+
+        '<td>'+fmtDuration(s.usageMs)+'</td>'+
+        '<td>'+s.sessionsCount+'</td>'+
+        '<td>'+s.accuracyPct+'%</td>'+
+        '<td>'+s.newC+' / '+s.reviewC+' / '+s.masteredC+'</td>'+
+        '<td style="white-space:nowrap;">'+action+'</td>'+
+      '</tr>';
+    }).join('');
+
+    body.querySelectorAll('button[data-detail]').forEach(function(b){b.addEventListener('click',function(){adminDetailUserId=adminDetailUserId===b.dataset.detail?null:b.dataset.detail;renderAdminDetail();});});
+    body.querySelectorAll('button[data-pass]').forEach(function(b){b.addEventListener('click',function(){adminSetPassword(b.dataset.pass);});});
+    body.querySelectorAll('button[data-status]').forEach(function(b){b.addEventListener('click',function(){adminSetProfile(b.dataset.status,{status:b.dataset.next});});});
+    body.querySelectorAll('button[data-renew]').forEach(function(b){b.addEventListener('click',function(){const days=Number(prompt('Gia hạn thêm bao nhiêu ngày?', '30'));if(!days||days<1)return;adminSetProfile(b.dataset.renew,{status:'active',expires_at:new Date(Date.now()+Math.min(days,3650)*86400000).toISOString()});});});
+    body.querySelectorAll('button[data-deluser]').forEach(function(b){b.addEventListener('click',function(){adminDeleteUser(b.dataset.deluser);});});
+    renderAdminDetail();
+  }
+
+  function renderAdminDetail(){
+    const el=document.getElementById('adminDetail'); if(!el||!adminDetailUserId||!users[adminDetailUserId]){if(el)el.innerHTML='';return;}
+    const u=users[adminDetailUserId]; const s=computeUserSummary(adminDetailUserId); const m=computeGlobalMastery(adminDetailUserId); const lc=computeLearningCounts(adminDetailUserId);
+    const deckIds=order.filter(function(id){return decks[id];});
+    const deckHtml=deckIds.map(function(deckId){const d=decks[deckId],c=computeDeckCounts(adminDetailUserId,deckId),ss=s.sessions.filter(function(x){return x.deckId===deckId;}),t=ss.reduce(function(a,x){return a+x.total;},0),r=ss.reduce(function(a,x){return a+x.correct;},0);const pct=t?Math.round(r/t*100):0;return '<div class="deckrow"><div class="drow-top"><span><b>'+escapeHtml(d.name)+'</b></span><span class="muted">'+d.cards.length+' thẻ</span></div><div class="drow-counts"><span class="pill new">🌱 '+c.newC+'</span><span class="pill review">🔁 '+c.reviewC+'</span><span class="pill mastered">⭐ '+c.masteredC+'</span><span class="pill" style="background:var(--surface);color:var(--text-dim);">⏰ '+d.cards.filter(function(card){return isDue(adminDetailUserId,card.id);}).length+'</span></div><div class="bar-row"><span style="width:90px;">Chính xác</span><div class="bar-track"><div class="bar-fill" style="width:'+pct+'%"></div></div><span style="width:40px;text-align:right;">'+pct+'%</span></div></div>';}).join('');
+    const accepted=termsAcceptances.find(function(t){return t.user_id===adminDetailUserId;});
+    el.innerHTML='<div class="card-box" style="margin-top:16px;padding:18px;">'+
+      '<div class="row" style="justify-content:space-between;"><div><h3 style="margin:0;">Chi tiết: '+escapeHtml(u.display_name||'Người học')+'</h3><div class="muted" style="font-size:12px;margin-top:3px;">'+escapeHtml(u.email||'')+' · '+statusBadge(u)+'</div></div><span class="muted" style="font-size:12px;">Tạo ngày '+new Date(u.created_at).toLocaleDateString('vi-VN')+'</span></div>'+
+      '<div class="summary-grid">'+
+        '<div class="mini"><b>'+fmtDuration(s.usageMs)+'</b><span>thời gian dùng</span></div>'+
+        '<div class="mini"><b>'+s.sessionsCount+'</b><span>lượt học</span></div>'+
+        '<div class="mini"><b>'+s.accuracyPct+'%</b><span>độ chính xác</span></div>'+
+        '<div class="mini"><b>'+m.masteredC+'</b><span>từ đã thuộc</span></div>'+
+        '<div class="mini"><b>'+lc.due+'</b><span>đến hạn</span></div>'+
+        '<div class="mini"><b>'+lc.weak+'</b><span>từ yếu</span></div>'+
+      '</div>'+
+      '<div class="format-hint">Chấp thuận điều khoản: '+(accepted?new Date(accepted.accepted_at).toLocaleString('vi-VN')+' · '+escapeHtml(accepted.terms_version):'Chưa ghi nhận')+'</div>'+
+      '<h3>Tiến độ theo bộ thẻ</h3>'+
+      (deckHtml||'<div class="muted">Chưa có bộ thẻ.</div>')+
+      '<h3>Lịch sử học gần đây</h3>'+
+      (s.sessions.length?s.sessions.slice(0,30).map(function(sess){const d=new Date(sess.date),dateStr=d.toLocaleString('vi-VN',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}),pct=sess.total?Math.round(sess.correct/sess.total*100):0;return '<div class="hist-item"><span>'+escapeHtml(sess.deckName)+' <span class="muted">— '+sess.correct+'/'+sess.total+' đúng ('+pct+'%)</span></span><span class="muted">'+dateStr+' · '+(sess.avgMs/1000).toFixed(1)+'s/câu</span></div>';}).join(''):'<div class="muted">Chưa có lượt học nào.</div>')+
+      '</div>';
+  }
+
+  /* ============================================================
+     INIT
+  ============================================================ */
+  showAuthGate();
+  bootApp();
+})();
+</script>
+</body>
+</html>
